@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const config = require('../config/db');
+const User = require('../model/user')
 
-// Users Schemma
+// Hospital Schemma
 const HospitalSchema = mongoose.Schema({
     name: {
         type: String,
@@ -58,3 +59,10 @@ module.exports.comparePassword = function(candidatePassword, hash, callback) {
         callback(null, isMatch);
     });
 };
+
+// get confirmation pending doctor list for a particular hospital
+module.exports.getPendingConfirm = function(id, callback){
+    const query = {confirm: '0',hospital: id}
+    User.find(query,callback).populate('hospital')
+  }
+  

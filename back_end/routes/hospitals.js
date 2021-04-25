@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/db');
 const Hospital = require('../model/hospital');
+const User = require('../model/user')
 const bcrypt = require('bcryptjs');
 
 require('dotenv').config();
@@ -89,5 +90,31 @@ router.all('/authenticate', (req, res, next) => {
     });
     });
 });
+
+// @desc view doctor pending confirmation list 
+// @route get /hospital/approve
+router.get('/approve/:id',(req,res,next)=>{    
+        Hospital.getPendingConfirm(req.params.id,(err, hospital)=> {
+            if(err) throw err;
+            if(!hospital){
+                return res.json({success: false, msg:'No pending doctors'})
+            }else {
+                return res.status(200).json(hospital)
+            }
+        })   
+    })
+
+
+// @desc approve doctor by hospital 
+// @route put /hospital/approve/:id
+router.put('/approve/:id',(req,res,next)=>{
+    User.findByIdAndUpdate(req.params.id,{$set: req.body},(error,doctor)=>{
+        if (!doctor){
+            return res.json({success:false ,msg:'Not found id'})   
+        }else{
+            return res.json({success:true,msg:'Approved'})
+        }
+    })
+})
 
 module.exports = router;
