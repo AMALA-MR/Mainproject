@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/db');
 const User = require('../model/user');
+const Hospital = require('../model/hospital')
 const bcrypt = require('bcryptjs');
 const validator = require('aadhaar-validator')
 
@@ -72,33 +73,57 @@ router.all('/register', function(req, res, next) {
 router.all('/authenticate', (req, res, next) => {
     const phone_no =req.body.phone_no;
     const password = req.body.password;
-
+    const name =req.body.name;
     User.getUserByPhone(phone_no, (err, user)=> {
         if(err) throw err;
         if(!user){
-            return res.json({success: false, msg: 'User not found'});
-        }
-
-    User.comparePassword(password, user.password, (err, isMatch) => {
-        if(err) throw err;
-        if(isMatch){
-            //console.log(user);
-            const token = jwt.sign(user.toJSON(), process.env.JWT_KEY, {
-                expiresIn: 604800 // one week
-            });
-            
-            res.json({
-                success: true, token: 'JWT '+token,
-                user:{
-                    id: user._id,
-                    name: user.name,
-                    phone_no: user.phone_no
+            Hospital.getUserByName(name, (err, hospital)=> {
+                if(err) throw err;
+                if(!hospital){
+                    return res.json({success: false, msg: 'Hospital not found'});
                 }
+                User.comparePassword(password, hospital.password, (err, isMatch) => {
+                    if(err) throw err;
+                    if(isMatch){
+                        //console.log(user);
+                        const token = jwt.sign(hospital.toJSON(), process.env.JWT_KEY, {
+                            expiresIn: 604800 // one week
+                        });
+                        
+                        res.json({
+                            success: true, token: 'JWT '+token,
+                            user:{
+                                id: hospital._id,
+                                name: hospital.name
+                            }
+                        });
+                    }else{
+                        return res.json({success: false, msg: 'Wrong Password'});
+                    }
+                });
+                
             });
         }else{
-            return res.json({success: false, msg: 'Wrong Password'});
+        User.comparePassword(password, user.password, (err, isMatch) => {
+            if(err) throw err;
+            if(isMatch){
+                //console.log(user);
+                const token = jwt.sign(user.toJSON(), process.env.JWT_KEY, {
+                    expiresIn: 604800 // one week
+                });
+                res.json({
+                    success: true, token: 'JWT '+token,
+                    user:{
+                        id: user._id,
+                        name: user.name,
+                        phone_no: user.phone_no
+                    }
+                });
+            }else{
+                return res.json({success: false, msg: 'Wrong Password'});
+            }
+        });
         }
-    });
     });
 });
 

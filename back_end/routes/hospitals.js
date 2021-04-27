@@ -57,40 +57,6 @@ router.all('/register', function(req, res, next) {
 });
 
 
-// @desc login url for hospital 
-// @route get /hospital/authenticate
-router.all('/authenticate', (req, res, next) => {
-    const name =req.body.name;
-    const password = req.body.password;
-
-    Hospital.getUserByName(name, (err, hospital)=> {
-        if(err) throw err;
-        if(!hospital){
-            return res.json({success: false, msg: 'Hospital not found'});
-        }
-
-        Hospital.comparePassword(password, hospital.password, (err, isMatch) => {
-        if(err) throw err;
-        if(isMatch){
-            //console.log(user);
-            const token = jwt.sign(hospital.toJSON(), process.env.JWT_KEY, {
-                expiresIn: 604800 // one week
-            });
-            
-            res.json({
-                success: true, token: 'JWT '+token,
-                user:{
-                    id: hospital._id,
-                    name: hospital.name,
-                }
-            });
-        }else{
-            return res.json({success: false, msg: 'Wrong Password'});
-        }
-    });
-    });
-});
-
 // @desc view doctor pending confirmation list 
 // @route get /hospital/approve
 router.get('/approve/:id',(req,res,next)=>{    
