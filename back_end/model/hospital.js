@@ -49,16 +49,9 @@ module.exports.addHospital = async function(newHospital, callback){
 //check is hospital exist or not using hospital name
 module.exports.getUserByName = function(name, callback){
     const query = {name: name}
+    //console.log(Hospital.findOne(query, callback))
     Hospital.findOne(query, callback);
 }
-
-//Decrypt password or compare password
-module.exports.comparePassword = function(candidatePassword, hash, callback) {
-    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
-        if(err) throw err;
-        callback(null, isMatch);
-    });
-};
 
 // get confirmation pending doctor list for a particular hospital
 module.exports.getPendingConfirm = function(id, callback){

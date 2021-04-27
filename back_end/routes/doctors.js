@@ -54,46 +54,5 @@ router.all('/register', function(req, res, next) {
     }
 });
 
-// @desc login url for normal user 
-// @route get /users/authenticate
-router.all('/authenticate', (req, res, next) => {
-    const phone_no =req.body.phone_no;
-    const password = req.body.password;
-
-    User.getUserByPhone(phone_no, (err, user)=> {
-        if(err) throw err;
-        if(!user){
-            return res.json({success: false, msg: 'User not found'});
-        }
-    User.getDoctorLogin(phone_no, (err, user)=> {
-        if(err) throw err;
-        if(!user){
-            return res.json({success: false, msg: 'Not approved by hospital'});
-        }
-
-    User.comparePassword(password, user.password, (err, isMatch) => {
-        if(err) throw err;
-        if(isMatch){
-            //console.log(user);
-            const token = jwt.sign(user.toJSON(), process.env.JWT_KEY, {
-                expiresIn: 604800 // one week
-            });
-            
-            res.json({
-                success: true, token: 'JWT '+token,
-                user:{
-                    id: user._id,
-                    name: user.name,
-                    login_type: user.login_type
-                }
-            });
-        }else{
-            return res.json({success: false, msg: 'Wrong Password'});
-        }
-    });
-    });
-    });
-});
-
 
 module.exports = router;
