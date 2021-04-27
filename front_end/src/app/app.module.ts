@@ -11,6 +11,9 @@ import { HelpfulLinksComponent } from './helpful-links/helpful-links.component';
 import { FAQComponent } from './faq/faq.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LoginComponent } from './login/login.component';
+import { UserRegisterComponent } from './registration/user-register/user-register.component';
+import { HospitalRegisterComponent } from './registration/hospital-register/hospital-register.component';
+import { DoctorRegisterComponent } from './registration/doctor-register/doctor-register.component';
 
 
 @NgModule({
@@ -21,7 +24,10 @@ import { LoginComponent } from './login/login.component';
     HelpfulLinksComponent,
     FAQComponent,
     NavBarComponent,
-    LoginComponent
+    LoginComponent,
+    UserRegisterComponent,
+    HospitalRegisterComponent,
+    DoctorRegisterComponent
   ],
   imports: [
     FormsModule,
