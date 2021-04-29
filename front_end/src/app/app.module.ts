@@ -14,6 +14,11 @@ import { LoginComponent } from './login/login.component';
 import { UserRegisterComponent } from './registration/user-register/user-register.component';
 import { HospitalRegisterComponent } from './registration/hospital-register/hospital-register.component';
 import { DoctorRegisterComponent } from './registration/doctor-register/doctor-register.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -34,7 +39,12 @@ import { DoctorRegisterComponent } from './registration/doctor-register/doctor-r
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule
   ],
   providers: [CoronaService],
   bootstrap: [AppComponent]
