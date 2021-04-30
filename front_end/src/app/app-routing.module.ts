@@ -11,12 +11,8 @@ import { from } from 'rxjs';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
-  { path: 'home', component: HomeComponent },
+  
+  { path: '', component: HomeComponent },
   { path: 'helpful', component: HelpfulLinksComponent },
   { path: 'faq', component: FAQComponent },
   { path: 'login', component: LoginComponent },

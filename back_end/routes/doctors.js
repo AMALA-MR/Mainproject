@@ -30,7 +30,7 @@ router.all('/register', function(req, res, next) {
             phone_no: req.body.phone_no,
             hospital: req.body.hospital,
             password: req.body.password,
-            confirm: req.body.confirm,
+            confirm: '0',
             login_type: req.body.login_type
         });
 

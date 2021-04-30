@@ -1,8 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from "@angular/router";
-import { from } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../Services/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,16 +15,22 @@ export class LoginComponent implements OnInit {
   
   constructor(
     private formBuilder: FormBuilder,
-    private authServive: AuthService,
+    private authService: AuthService,
     private router: Router,
     private ngZone: NgZone,
-  ) { }
+  ) { this.mainForm(); }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    
+  }
+  mainForm() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+  }
+  get myForm(){
+    return this.loginForm.controls;
   }
 
 
@@ -33,23 +39,21 @@ export class LoginComponent implements OnInit {
     this.submitted == true;
     if (!this.loginForm.valid) {
       return false;
-    }
-    else if (this.loginForm.value.mail == 'admin@gmail.com') {
-      console.log('admin loggined');
-      this.authServive.authenticateUser(JSON.stringify(this.loginForm.value)).subscribe(res => {
-        console.log(res);
-
-        if (res.success) {
-          console.log('loggedin');
-          this.authServive.storeUserToken(res.token, res.user);
-          this.ngZone.run(() => this.router.navigateByUrl('/home'))
-        }
-        else {
-          this.invalid = 'Invalid username or password'
+    }else {
+      console.log(JSON.stringify(this.loginForm.value))
+      this.authService.authenticateUser(JSON.stringify(this.loginForm.value)).subscribe(res =>{
+        console.log(res)
+        //console.log(res.user)
+        if(res.success){
+          console.log('logined')
+          this.authService.storeUserToken(res.token, res.user);
+          this.ngZone.run(() =>this.router.navigateByUrl('/login'))
+        } else{
+          //this.flashMessages.show('Invalid username or password',{ cssClass:'alert-danger', timeout: '3000'});
+          this.invalid='Invalid username or password'
           this.router.navigateByUrl('/login')
-
         }
-      }, (error) => {
+      },(error)=> {
         console.log(error)
       });
     }
