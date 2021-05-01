@@ -39,10 +39,18 @@ export class LoginComponent implements OnInit {
     this.submitted == true;
     if (!this.loginForm.valid) {
       return false;
+    }else if(this.loginForm.value.username=='admin'){
+      this.authService.authenticateAdmin(JSON.stringify(this.loginForm.value)).subscribe(res=>{
+        if(res.success){
+          this.authService.storeUserToken(res.token, res.admin);
+          this.ngZone.run(() =>this.router.navigateByUrl('/login'))
+        }else{
+          this.invalid='Invalid username or password'
+          this.router.navigateByUrl('/login')
+        }
+      })
     }else {
-      console.log(JSON.stringify(this.loginForm.value))
       this.authService.authenticateUser(JSON.stringify(this.loginForm.value)).subscribe(res =>{
-        console.log(res)
         //console.log(res.user)
         if(res.success){
           console.log('logined')
@@ -50,7 +58,8 @@ export class LoginComponent implements OnInit {
           this.ngZone.run(() =>this.router.navigateByUrl('/login'))
         } else{
           //this.flashMessages.show('Invalid username or password',{ cssClass:'alert-danger', timeout: '3000'});
-          this.invalid='Invalid username or password'
+          this.invalid=res.msg
+          console.log(res.msg)
           this.router.navigateByUrl('/login')
         }
       },(error)=> {

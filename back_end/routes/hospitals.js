@@ -41,16 +41,18 @@ router.all('/register', function(req, res, next) {
             //console.log(err)
             res.json({success: false, msg:'Failed to register hospital'});   
         }else {
-            const token = jwt.sign(hospital.toJSON(), process.env.JWT_KEY,{
-                expiresIn: 604800 // one week
-            });
-            res.json({
-                success: true, token: 'JWT '+token,
-                user:{
-                    id: hospital._id,
-                    name: hospital.name
-                }
-            });
+            res.json({success: true, msg:'Hospital registered, and send request to admin for approval'});
+            //const token = jwt.sign(hospital.toJSON(), process.env.JWT_KEY,{
+            //    expiresIn: 604800 // one week
+            //});
+            //res.json({
+            //    success: true, token: 'JWT '+token,
+            //    user:{
+            //        id: hospital._id,
+            //        name: hospital.name,
+            //        login_type:"hospital"
+            //    }
+            //});
         }
     });
     });

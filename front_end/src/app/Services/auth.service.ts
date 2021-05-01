@@ -37,7 +37,14 @@ export class AuthService {
   authenticateUser(user): Observable<any> {
     let url= `${this.userUri}/authenticate`
     return this.http.post(url, user, { headers: this.headers}).pipe(catchError(this.errorMgmt))
-  }   
+  }  
+
+  //admin login
+  authenticateAdmin(admin): Observable<any> {
+    let url=`${this.adminUri}/authenticate`
+    return this.http.post(url, admin, { headers: this.headers}).pipe(catchError(this.errorMgmt))
+  }
+
 
   //Set token
   storeUserToken(token, user){

@@ -84,21 +84,25 @@ router.all('/authenticate', (req, res, next) => {
                 }
                 User.comparePassword(password, hospital.password, (err, isMatch) => {
                     if(err) throw err;
-                    if(isMatch){
-                        const token = jwt.sign(hospital.toJSON(), process.env.JWT_KEY, {
-                            expiresIn: 604800 // one week
-                        });
-                        
-                        res.json({
-                            success: true, token: 'JWT '+token,
-                            user:{
-                                id: hospital._id,
-                                name: hospital.name,
-                                type: "hospital"
-                            }
-                        });
+                    if(hospital.confirm=='0'){
+                        res.json({success: false, msg:'Hospital registered, and send request to Admin for approval'});
                     }else{
-                        return res.json({success: false, msg: 'Wrong Password'});
+                        if(isMatch){
+                            const token = jwt.sign(hospital.toJSON(), process.env.JWT_KEY, {
+                                expiresIn: 604800 // one week
+                            });
+                            
+                            res.json({
+                                success: true, token: 'JWT '+token,
+                                user:{
+                                    id: hospital._id,
+                                    name: hospital.name,
+                                    login_type: "hospital"
+                                }
+                            });
+                        }else{
+                            return res.json({success: false, msg: 'Wrong Password'});
+                        }
                     }
                 });
                 
@@ -106,21 +110,25 @@ router.all('/authenticate', (req, res, next) => {
         }else{
         User.comparePassword(password, user.password, (err, isMatch) => {
             if(err) throw err;
-            if(isMatch){
-                const token = jwt.sign(user.toJSON(), process.env.JWT_KEY, {
-                    expiresIn: 604800 // one week
-                });
-                res.json({
-                    success: true, token: 'JWT '+token,
-                    user:{
-                        id: user._id,
-                        name: user.name,
-                        phone_no: user.phone_no,
-                        type: user.login_type
-                    }
-                });
+            if(user.confirm=='0'){
+                res.json({success: false, msg:'Doctor registered, and send request to hospital for approval'});
             }else{
-                return res.json({success: false, msg: 'Wrong Password'});
+                if(isMatch){
+                    const token = jwt.sign(user.toJSON(), process.env.JWT_KEY, {
+                        expiresIn: 604800 // one week
+                    });
+                    res.json({
+                        success: true, token: 'JWT '+token,
+                        user:{
+                            id: user._id,
+                            name: user.name,
+                            phone_no: user.phone_no,
+                            login_type: user.login_type
+                        }
+                    });
+                }else{
+                    return res.json({success: false, msg: 'Wrong Password'});
+                }
             }
         });
         }

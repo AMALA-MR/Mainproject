@@ -31,6 +31,7 @@ router.all('/register', function(req, res, next) {
             hospital: req.body.hospital,
             password: req.body.password,
             confirm: '0',
+            specialization:req.body.specialization,
             login_type: req.body.login_type
         });
 

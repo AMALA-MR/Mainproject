@@ -20,8 +20,9 @@ connectDB();
 const app = express();
 
 const users = require('./routes/users');
-const hospitals =require('./routes/hospitals')
+const hospitals = require('./routes/hospitals')
 const doctors = require('./routes/doctors')
+const admin = require('./routes/admins')
 
 // CORS Middleware
 
@@ -67,6 +68,8 @@ app.use(passport.session());
 app.use('/users', users)
 app.use('/hospital',hospitals)
 app.use('/doctor',doctors)
+app.use('/admin',admin)
+
 // Index Route
 app.get('/',(req,res) => {
     res.send('invalid');

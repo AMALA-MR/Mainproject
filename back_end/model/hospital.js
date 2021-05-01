@@ -29,6 +29,11 @@ const HospitalSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    confirm: {
+        type: String, 
+        default: '0',
+        enum: ['0','1'],  
+    },
     created_at: {
         type: Date,
         default: Date.now,

@@ -4,7 +4,7 @@ const config = require('../config/db');
 
 // Users Schemma
 const UserSchema = mongoose.Schema({
-    name: {
+    username: {
         type: String,
         required: true
     },
@@ -37,6 +37,9 @@ const UserSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Hospital',
     },
+    specialization: {
+        type: String
+    },
     login_type: {
         type:String,
         required: true,
@@ -58,6 +61,11 @@ module.exports.addUser = async function(newUser, callback){
     newUser.password = await bcrypt.hashSync(newUser.password,salt)
 
     newUser.save(callback)
+}
+//check admin username
+module.exports.getUserByUsername=function(username, callback){
+    const query = {username: username}
+    User.findOne(query, callback);
 }
 
 //check is user exist or not using aadhar
