@@ -34,6 +34,11 @@ const HospitalSchema = mongoose.Schema({
         default: '0',
         enum: ['0','1'],  
     },
+    type:{
+        type: String,
+        required: true,
+        enum:['private', 'govt']
+    },
     created_at: {
         type: Date,
         default: Date.now,
@@ -63,4 +68,9 @@ module.exports.getPendingConfirm = function(id, callback){
     const query = {confirm: '0',hospital: id}
     User.find(query,callback).populate('hospital')
   }
-  
+
+// get approved hospital name
+module.exports.getHospital = function(callback){
+    const query = {confirm: '1'}
+    Hospital.find(query,callback);
+}

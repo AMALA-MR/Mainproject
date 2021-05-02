@@ -27,6 +27,7 @@ router.all('/register', function(req, res, next) {
         district: req.body.district,
         state: req.body.state,
         pincode: req.body.pincode,
+        type: req.body.type,
         password: req.body.password
     });
 
@@ -84,5 +85,20 @@ router.put('/approve/:id',(req,res,next)=>{
         }
     })
 })
+
+
+// @desc approved hospital list
+// @route get /hospital/list
+router.get('/list',(req,res,next)=>{
+    Hospital.getHospital((err, hospital)=> {
+        if(err) throw err;
+        if(!hospital){
+            return res.json({success: false, msg:'No hosptials'})
+        }else {
+            return res.status(200).json(hospital)
+        }
+    })
+})
+
 
 module.exports = router;
