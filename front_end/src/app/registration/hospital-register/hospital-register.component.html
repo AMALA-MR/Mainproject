@@ -1,1 +1,26 @@
-<p>hospital-register works!</p>
+<body>
+    <div class="main">
+        <div class="container a-container" id="a-container">
+            <form action="" id="a-form" class="form" [formGroup]="hospitalForm" (ngSubmit)="onSubmit()">
+                <h2 class="form_title title">Covid Tracker</h2>
+                <!-- <span class="form_span">use email</span> -->
+                <div class="form-group">
+                    <label for="name">NAME</label>
+                    <input type="text" class="form-control" formControlName="name">
+                    <label for="name">CONTACT</label>
+                    <input type="text" class="form-control" formControlName="phone_no">
+                    <label for="name">ADHAR_NO</label>
+                    <input type="text" class="form-control" formControlName="adhar_no">
+                    <label for="name">PASSWORD</label>
+                    <input type="text" class="form-control" formControlName="password">
+                    <label for="name">GENDER</label>
+                    <input type="radio" class="form-control" formControlName="gender">FEMALE
+                    <input type="radio" class="form-control">MALE
+                    <label for="name">AGE</label>
+                    <input type="text" class="form-control" formControlName="age">
+                    <button class="form_button button submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body><p>hospital-register works!</p>

@@ -72,6 +72,7 @@ body {
     background-color: #ecf0f3;
     transition: 0.25s ease;
     border-radius: 8px;
+    transform: 600px;
     box-shadow: inset 2px 2px 4px #d1d9e6, inset -2px -2px 4px #f9f9f9;
 }
 .form__input:focus {
@@ -210,4 +211,10 @@ body {
     30%, 50% {
         width: 500px;
    }
+  
+}
+
+.form-control{
+    height: 30px;
+    padding: 10px;
 }

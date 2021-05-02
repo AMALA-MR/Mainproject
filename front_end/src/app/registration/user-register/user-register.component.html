@@ -1,14 +1,25 @@
 <body>
     <div class="main">
         <div class="container a-container" id="a-container">
-            <form action="" id="a-form" class="form">
+            <form action="" id="a-form" class="form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
                 <h2 class="form_title title">Covid Tracker</h2>
-                <span class="form_span">use email</span>
-                <input type="text" placeholder="name" class="form_input">
-                <input type="text" placeholder="age" class="form_input">
-                <input type="text" placeholder="phone no" class="form_input">
-                <input type="password" placeholder="password" class="form_input">
+                <!-- <span class="form_span">use email</span> -->
+                <div class="form-group">
+                    <!-- <label for="name">NAME</label> -->
+                    <input type="text" class="form-control" placeholder="UserName" formControlName="name">
+                    <!-- <label for="name">AGE</label> -->
+                    <input type="text" class="form-control" formControlName="age">
+                    <!-- <label for="name">GENDER</label> -->
+                    <input type="radio"  name="radio1" formControlName="gender">FEMALE
+                    <input type="radio" name="radio1" formControlName="gender">MALE
+                    <!-- <label for="name">ADHAR_NO</label> -->
+                    <input type="text" class="form-control" formControlName="adhar_no">
+                    <!-- <label for="name">CONTACT</label> -->
+                    <input type="text" class="form-control" formControlName="phone_no">
+                    <!-- <label for="name">PASSWORD</label> -->
+                    <input type="text" class="form-control" formControlName="password">
                 <button class="form_button button submit">Submit</button>
+                </div>
             </form>
         </div>
         <div class="switch" id="switch-cnt">
@@ -17,7 +28,8 @@
             <div class="switch_container" id="switch-c1">
                 <h2 class="switch_title title">Register As:</h2>
                 <button class="switch_button button switch-btn">User</button>
-                <button class="switch_button button switch-btn">Doctor</button>
+                <button class="switch_button button switch-btn" [routerLink]="['/home']">Doctor</button>
+                <!-- <a [routerLink]="['/doctor_register']" class="switch_button button switch-btn">Doctor</a> -->
                 <button class="switch_button button switch-btn">Hospital</button>
             </div>
         </div>
