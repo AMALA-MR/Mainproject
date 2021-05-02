@@ -2,19 +2,36 @@
     <div class="main">
         <div class="container a-container" id="a-container">
             <form action="" id="a-form" class="form" [formGroup]="hospitalForm" (ngSubmit)="onSubmit()">
-                <h2 class="form_title title">Hospital Registration</h2>
+                <h2 class="form_title title">Doctor Registration</h2>
                 <!-- <span class="form_span">use email</span> -->
                 <div class="form-group">
-                    <label for="name">NAME</label>
-                    <input type="text" class="form-control" formControlName="name">
-                    <label for="name">CONTACT</label>
-                    <input type="text" class="form-control" formControlName="city">
-                    <label for="name">ADHAR_NO</label>
-                    <input type="text" class="form-control" formControlName="district">
-                    <label for="name">PINCODE</label>
-                    <input type="text" class="form-control" formControlName="pincode">
-                    <label for="name">PASSWORD</label>
-                    <input type="text" class="form-control" formControlName="password">
+                    <input type="text" class="form-control" placeholder="Username" formControlName="name">
+                    <input type="text" class="form-control" placeholder="City" formControlName="city">
+                    <!-- <input type="text" class="form-control" placeholder="district" formControlName="district"> -->
+                    <select formControlName="district">
+                        <option value="">Select District</option>
+                        <option value="1">thiruvananthapuram</option>
+                        <option value="2">Kollam</option>
+                        <option value="3">Alappuzha</option>
+                        <option value="4">Pathanamthitta</option>
+                        <option value="5">Kottaam</option>
+                        <option value="6">Idukki</option>
+                        <option value="7">Ernakulam</option>
+                        <option value="8">Thrissur</option>
+                        <option value="9">Palakkad</option>
+                        <option value="10">Malappuram</option>
+                        <option value="11">Kozhikod</option>
+                        <option value="12">Waanad</option>
+                        <option value="13">Kannur</option>
+                        <option value="14">Kasargod</option>
+                    </select><br>
+                    <!-- <input type="text" class="form-control" placeholder="state" formControlName="state"> -->
+                    <select formControlName="state">
+                        <option value="">Select State</option>
+                        <option value="1">Kerala</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="pincode" formControlName="pincode">
+                    <input type="password" class="form-control" placeholder="password" formControlName="password">
                     <button class="form_button button submit">Submit</button>
                 </div>
             </form>
@@ -30,3 +47,4 @@
             </div>
         </div>
     </div>
+</body>

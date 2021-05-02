@@ -55,8 +55,8 @@ export class UserRegisterComponent implements OnInit {
             if(res.user.type=='user')
               this.router.navigateByUrl('/users/dashboard')
           }else{
-            console.log('Somethings wrong');
-            this.router.navigateByUrl('/register')
+            console.log(res.msg);
+            // this.router.navigateByUrl('/register')
           }
         },(error)=>{
           console.log(error)

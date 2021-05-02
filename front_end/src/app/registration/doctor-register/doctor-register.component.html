@@ -5,20 +5,28 @@
                 <h2 class="form_title title">Doctor Registration</h2>
                 <!-- <span class="form_span">use email</span> -->
                 <div class="form-group">
-                    <label for="name">NAME</label> 
-                    <input type="text" class="form-control" formControlName="name">
-                    <label for="name">AGE</label>
-                    <input type="text" class="form-control" formControlName="age">
-                    <input type="radio"  name="gender" formControlName="gender">FEMALE
-                    <input type="radio" name="gender" formControlName="gender">MALE<br>
-                    <label for="name">ADHAR_NO</label> 
-                    <input type="text" class="form-control" formControlName="adhar_no">
-                    <label for="name">CONTACT</label> 
-                    <input type="text" class="form-control" formControlName="phone_no">
-                    <!-- <label for="name">HOSPITAL</label>
-                    <input type="text" class="form-control" formControlName="hospital"> -->
-                    <label for="name">PASSWORD</label> 
-                    <input type="text" class="form-control" formControlName="password">
+                    <!-- <label for="name">NAME</label>  -->
+                    <input type="text" class="form-control" placeholder="Username" formControlName="name">
+                    <!-- <label for="name">AGE</label> -->
+                    <input type="text" class="form-control" placeholder="Age" formControlName="age">
+                    <input type="radio"   value="female" name="gender" formControlName="gender">FEMALE
+                    <input type="radio" value="male" name="gender" formControlName="gender">MALE<br>
+                    <!-- <label for="name">ADHAR_NO</label>  -->
+                    <input type="text" class="form-control" placeholder="Adhar_number" formControlName="adhar_no">
+                    <!-- <label for="name">CONTACT</label>  -->
+                    <input type="text" class="form-control" placeholder="Contact" formControlName="phone_no">
+                     <!-- <label for="name">HOSPITAL</label> -->
+                   <!-- <input type="text" class="form-control" formControlName="hospital"> -->
+                   <select formControlName="hospital">
+                       <option value="">Select Hospitals</option>
+                       <option value="1">RenaiMedicity</option>
+                       <option value="2">EMC</option>
+                       <option value="3">Sunrise</option>
+                       <option value="4">Co-operative</option>
+                       <option value="5">Aster Medicity</option>
+                   </select>
+                    <!-- <label for="name">PASSWORD</label>  -->
+                    <input type="password" class="form-control" placeholder="password" formControlName="password">
                     <button class="form_button button submit">Submit</button>
                 </div>
             </form>
