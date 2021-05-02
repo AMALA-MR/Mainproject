@@ -48,7 +48,19 @@ export class UserRegisterComponent implements OnInit {
     if(!this.userForm.valid){
       return false;
     }else{
-        this.authService.registerUser(JSON.stringify(this.userForm.value)).subscribe(res=>{
+        //console.log(this.userForm.value)
+        const value= this.userForm.value
+        const values={
+          name:value.name,
+          age:value.age,
+          gender:value.gender,
+          adhar_no:value.adhar_no,
+          phone_no:value.phone_no,
+          password:value.password,
+          login_type:'user'
+        } 
+        console.log(JSON.stringify(values))
+        this.authService.registerUser(JSON.stringify(values)).subscribe(res=>{
           if(res.success){
             this.authService.storeUserToken(res.token, res.user);
             console.log('User Successfully Registered');
