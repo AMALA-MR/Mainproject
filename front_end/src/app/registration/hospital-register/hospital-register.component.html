@@ -2,25 +2,31 @@
     <div class="main">
         <div class="container a-container" id="a-container">
             <form action="" id="a-form" class="form" [formGroup]="hospitalForm" (ngSubmit)="onSubmit()">
-                <h2 class="form_title title">Covid Tracker</h2>
+                <h2 class="form_title title">Hospital Registration</h2>
                 <!-- <span class="form_span">use email</span> -->
                 <div class="form-group">
                     <label for="name">NAME</label>
                     <input type="text" class="form-control" formControlName="name">
                     <label for="name">CONTACT</label>
-                    <input type="text" class="form-control" formControlName="phone_no">
+                    <input type="text" class="form-control" formControlName="city">
                     <label for="name">ADHAR_NO</label>
-                    <input type="text" class="form-control" formControlName="adhar_no">
+                    <input type="text" class="form-control" formControlName="district">
+                    <label for="name">PINCODE</label>
+                    <input type="text" class="form-control" formControlName="pincode">
                     <label for="name">PASSWORD</label>
                     <input type="text" class="form-control" formControlName="password">
-                    <label for="name">GENDER</label>
-                    <input type="radio" class="form-control" formControlName="gender">FEMALE
-                    <input type="radio" class="form-control">MALE
-                    <label for="name">AGE</label>
-                    <input type="text" class="form-control" formControlName="age">
                     <button class="form_button button submit">Submit</button>
                 </div>
             </form>
         </div>
+        <div class="switch" id="switch-cnt">
+            <div class="switch_circle"></div>
+            <div class="switch_circle switch_circle--t"></div>
+            <div class="switch_container" id="switch-c1">
+                <h2 class="switch_title title">Register As:</h2>
+                <button [routerLink]="['/user_register']" class="switch_button button switch-btn">User</button>
+                <button [routerLink]="['/doctor_register']" class="switch_button button switch-btn">Doctor</button>
+                <button [routerLink]="['/hospital_register']" class="switch_button button switch-btn">Hospital</button>
+            </div>
+        </div>
     </div>
-</body><p>hospital-register works!</p>

@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 export class UserRegisterComponent implements OnInit {
   name: String;
   phone_no: String;
-  adhar: String;
+  adhar_no: String;
   password: String;
   gender: String;
   age: String;
@@ -33,8 +33,9 @@ export class UserRegisterComponent implements OnInit {
       name: ['',[Validators.required]],
       age:['',[Validators.required]],
       gender:['',[Validators.required]],
-      adhar:['',[Validators.required]],
+      adhar_no:['',[Validators.required]],
       phone_no:['',[Validators.required]],
+      password:['',[Validators.required]]
       //password:['',[Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
     })
   }

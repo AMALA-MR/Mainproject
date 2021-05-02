@@ -12,7 +12,7 @@ import { validateBasis } from '@angular/flex-layout';
 export class DoctorRegisterComponent implements OnInit {
   name: String;
   phone_no: String;
-  adhar: String;
+  adhar_no: String;
   password: String;
   gender: String;
   age: String;
@@ -31,10 +31,10 @@ export class DoctorRegisterComponent implements OnInit {
   mainForm(){
     this.userForm = this.fb.group({
       name: ['',[Validators.required]],
-      age:['',[Validators.required, Validators.pattern('(?=.*[0-9).{,3}')]],
+      age:['',[Validators.required]],
       gender:['',[Validators.required]],
-      adhar:['',[Validators.required]],
-      phone_no:['',[Validators.required,Validators.pattern('(?=.*[0-9).{10}')]],
+      adhar_no:['',[Validators.required]],
+      phone_no:['',[Validators.required]],
       hospital:['',[Validators.required]],
       password:['',[Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
     })

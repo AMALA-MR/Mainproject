@@ -33,7 +33,7 @@ export class HospitalRegisterComponent implements OnInit {
       city:['',[Validators.required]],
       district:['',[Validators.required]],
       state:['',[Validators.required]],
-      pincode:['',[Validators.required,Validators.pattern('(?=.*[0-9).{6}')]],
+      pincode:['',[Validators.required]],
       password:['',[Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
     })
   }

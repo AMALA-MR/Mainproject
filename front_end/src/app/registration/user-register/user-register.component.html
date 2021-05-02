@@ -2,7 +2,7 @@
     <div class="main">
         <div class="container a-container" id="a-container">
             <form action="" id="a-form" class="form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
-                <h2 class="form_title title">Covid Tracker</h2>
+                <h2 class="form_title title">User Registration</h2>
                 <!-- <span class="form_span">use email</span> -->
                 <div class="form-group">
                     <!-- <label for="name">NAME</label> -->
@@ -10,8 +10,8 @@
                     <!-- <label for="name">AGE</label> -->
                     <input type="text" class="form-control" formControlName="age">
                     <!-- <label for="name">GENDER</label> -->
-                    <input type="radio"  name="radio1" formControlName="gender">FEMALE
-                    <input type="radio" name="radio1" formControlName="gender">MALE
+                    <input type="radio"  name="gender" formControlName="gender">FEMALE
+                    <input type="radio" name="gender" formControlName="gender">MALE
                     <!-- <label for="name">ADHAR_NO</label> -->
                     <input type="text" class="form-control" formControlName="adhar_no">
                     <!-- <label for="name">CONTACT</label> -->
@@ -27,10 +27,9 @@
             <div class="switch_circle switch_circle--t"></div>
             <div class="switch_container" id="switch-c1">
                 <h2 class="switch_title title">Register As:</h2>
-                <button class="switch_button button switch-btn">User</button>
-                <button class="switch_button button switch-btn" [routerLink]="['/home']">Doctor</button>
-                <!-- <a [routerLink]="['/doctor_register']" class="switch_button button switch-btn">Doctor</a> -->
-                <button class="switch_button button switch-btn">Hospital</button>
+                <button [routerLink]="['/user_register']" class="switch_button button switch-btn">User</button>
+                <button [routerLink]="['/doctor_register']" class="switch_button button switch-btn">Doctor</button>
+                <button [routerLink]="['/hospital_register']" class="switch_button button switch-btn">Hospital</button>
             </div>
         </div>
     </div>
