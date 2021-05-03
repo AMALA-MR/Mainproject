@@ -12,42 +12,47 @@ export class AuthService {
   user: any;
   helper = new JwtHelperService();
 
-  userUri:string = 'http://localhost:3000/users';
-  doctorUri:string = 'http://localhost:3000/doctor';
+  userUri: string = 'http://localhost:3000/users';
+  doctorUri: string = 'http://localhost:3000/doctor';
   hospitalUri = 'http://localhost:3000/hospital';
   adminUri = 'http://localhost:3000/admin';
 
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  
-  constructor(private http:HttpClient) { }
 
-   // user or doctor registraction
-   registerUser(user): Observable<any> {
-    let url= `${this.userUri}/register`
-    return this.http.post(url, user,{headers:this.headers} ).pipe(catchError(this.errorMgmt))
+  constructor(private http: HttpClient) { }
+
+  // user or doctor registraction
+  registerUser(user): Observable<any> {
+    let url = `${this.userUri}/register`
+    return this.http.post(url, user, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 
   // user or doctor registraction
   registerHospital(hospital): Observable<any> {
-    let url= `${this.hospitalUri}/register`
-    return this.http.post(url, hospital,{headers:this.headers} ).pipe(catchError(this.errorMgmt))
+    let url = `${this.hospitalUri}/register`
+    return this.http.post(url, hospital, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 
   //user login
   authenticateUser(user): Observable<any> {
-    let url= `${this.userUri}/authenticate`
-    return this.http.post(url, user, { headers: this.headers}).pipe(catchError(this.errorMgmt))
-  }  
+    let url = `${this.userUri}/authenticate`
+    return this.http.post(url, user, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
 
   //admin login
   authenticateAdmin(admin): Observable<any> {
-    let url=`${this.adminUri}/authenticate`
-    return this.http.post(url, admin, { headers: this.headers}).pipe(catchError(this.errorMgmt))
+    let url = `${this.adminUri}/authenticate`
+    return this.http.post(url, admin, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 
+  //get registered hospital
+  gethospital(): Observable<any> {
+    let url = `${this.hospitalUri}/list`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
 
+  }
   //Set token
-  storeUserToken(token, user){
+  storeUserToken(token, user) {
     localStorage.setItem('access_token', token)
     localStorage.setItem('user', JSON.stringify(user))
     this.authToken = token
@@ -55,17 +60,17 @@ export class AuthService {
   }
 
   // check login or not
-  loggedIn(){
-    let isToken=localStorage.getItem('access_token');
+  loggedIn() {
+    let isToken = localStorage.getItem('access_token');
     return this.helper.isTokenExpired(isToken);
   }
 
-   //logout
-   logout() {
-    this.authToken= null;
+  //logout
+  logout() {
+    this.authToken = null;
     localStorage.clear();
   }
-  
+
   // Error handling 
   errorMgmt(error: HttpErrorResponse) {
     let errorMessage = '';

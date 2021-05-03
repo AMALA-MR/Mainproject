@@ -17,6 +17,7 @@ export class DoctorRegisterComponent implements OnInit {
   gender: String;
   age: String;
   hospital:String;
+  list:String;
   submitted =false;
   userForm: FormGroup;
 
@@ -27,6 +28,13 @@ export class DoctorRegisterComponent implements OnInit {
   ) { this.mainForm(); }
 
   ngOnInit(): void {
+     
+     this.authService.gethospital().subscribe(res=>{
+       console.log(res);
+      //  console.log(res.name);
+      },(error)=>{
+        console.log(error)
+     });
   }
   mainForm(){
     this.userForm = this.fb.group({
@@ -56,7 +64,7 @@ export class DoctorRegisterComponent implements OnInit {
             this.router.navigateByUrl('/')
           }else{
             console.log('Somethings wrong');
-            this.router.navigateByUrl('/register')
+            // this.router.navigateByUrl('/register')
           }
         },(error)=>{
           console.log(error)

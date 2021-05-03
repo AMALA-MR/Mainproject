@@ -34,6 +34,7 @@ export class HospitalRegisterComponent implements OnInit {
       district:['',[Validators.required]],
       state:['',[Validators.required]],
       pincode:['',[Validators.required]],
+      type:['',[Validators.required]],
       password:['',[Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
     })
   }
@@ -46,14 +47,15 @@ export class HospitalRegisterComponent implements OnInit {
     if(!this.hospitalForm.valid){
       return false;
     }else{
+      console.log(this.hospitalForm.value)
         this.authService.registerHospital(JSON.stringify(this.hospitalForm.value)).subscribe(res=>{
           if(res.success){
             this.authService.storeUserToken(res.token, res.user);
-            console.log('hospital Successfully Registered');
-            this.router.navigateByUrl('/hospital/dashboard')
+            console.log(res.msg);
+             this.router.navigateByUrl('/hospital/dashboard')
           }else{
-            console.log('Somethings wrong');
-            this.router.navigateByUrl('/register')
+            console.log(res.msg);
+             this.router.navigateByUrl('/register')
           }
         },(error)=>{
           console.log(error)
