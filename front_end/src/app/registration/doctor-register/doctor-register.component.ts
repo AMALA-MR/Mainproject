@@ -16,58 +16,70 @@ export class DoctorRegisterComponent implements OnInit {
   password: String;
   gender: String;
   age: String;
-  hospital:String;
-  list:String;
-  submitted =false;
+  hospital: String;
+  list: any = [];
+  Hospitals: any = [];
+  submitted = false;
   userForm: FormGroup;
-
   constructor(
     public fb: FormBuilder,
-    private authService : AuthService,
-    private router :Router
+    private authService: AuthService,
+    private router: Router
   ) { this.mainForm(); }
 
   ngOnInit(): void {
-     
-     this.authService.gethospital().subscribe(res=>{
-       console.log(res);
-      //  console.log(res.name);
-      },(error)=>{
-        console.log(error)
-     });
+
+    this.authService.gethospital().subscribe(res => {
+      var hospitals = res;
+      var list = [];
+      var Hospitals = [];
+      hospitals.forEach(function (hospital) {
+        list.push(hospital.name);
+      });
+      hospitals.map(function (hospital) {
+       Hospitals = hospital.name;
+        console.log(Hospitals, 'valuesssssssssss');
+
+        //   let id=hospital._id;
+        return Hospitals;
+
+      });
+    }, (error) => {
+      console.log(error)
+    });
   }
-  mainForm(){
+  mainForm() {
     this.userForm = this.fb.group({
-      name: ['',[Validators.required]],
-      age:['',[Validators.required]],
-      gender:['',[Validators.required]],
-      adhar_no:['',[Validators.required]],
-      phone_no:['',[Validators.required]],
-      hospital:['',[Validators.required]],
-      password:['',[Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
+      name: ['', [Validators.required]],
+      age: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      adhar_no: ['', [Validators.required]],
+      phone_no: ['', [Validators.required]],
+      hospital: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
     })
   }
-  get myForm(){
+  get myForm() {
     return this.userForm.controls;
   }
 
-  onSubmit(){
-    this.submitted=true;
-    if(!this.userForm.valid){
+  onSubmit() {
+    this.submitted = true;
+    if (!this.userForm.valid) {
       return false;
-    }else{
-        this.authService.registerUser(JSON.stringify(this.userForm.value)).subscribe(res=>{
-          if(res.success){
-            this.authService.storeUserToken(res.token, res.user);
-            console.log('doctor Successfully Registered');
-            if(res.user.type=='doctor')
+    } else {
+      this.authService.registerUser(JSON.stringify(this.userForm.value)).subscribe(res => {
+        if (res.success) {
+          this.authService.storeUserToken(res.token, res.user);
+          console.log('doctor Successfully Registered');
+          if (res.user.type == 'doctor')
             this.router.navigateByUrl('/')
-          }else{
-            console.log('Somethings wrong');
-            // this.router.navigateByUrl('/register')
-          }
-        },(error)=>{
-          console.log(error)
+        } else {
+          console.log('Somethings wrong');
+          // this.router.navigateByUrl('/register')
+        }
+      }, (error) => {
+        console.log(error)
       });
     }
   }

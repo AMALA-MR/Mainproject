@@ -17,17 +17,12 @@
                     <input type="text" class="form-control" placeholder="Contact" formControlName="phone_no">
                      <!-- <label for="name">HOSPITAL</label> -->
                    <!-- <input type="text" class="form-control" formControlName="hospital"> -->
-                   <select formControlName="hospital" name="hospital">
-                       <option value="">Select Hospitals</option>
-                       <option value="1">RenaiMedicity</option>
-                       <option value="2">EMC</option>
-                       <option value="3">Sunrise</option>
-                       <option value="4">Co-operative</option>
-                       <option value="5">Aster Medicity</option>
+                   <select formControlName="hospital"  class="form-control">
+                       <option *ngFor = "let hospital of Hospitals;let i = index" [value] = "hospital[i]._id">{{hospital[i].name}}</option>
                    </select>
                     <!-- <label for="name">PASSWORD</label>  -->
                     <input type="password" class="form-control" placeholder="password" formControlName="password">
-                    <button class="form_button button submit">Submit</button>
+                    <button class="form_button button submit" [routerLink]="['/doctordashboard']">Submit</button>
                 </div>
             </form>
         </div>

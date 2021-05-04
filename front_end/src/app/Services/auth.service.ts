@@ -11,6 +11,7 @@ export class AuthService {
   authToken: any;
   user: any;
   helper = new JwtHelperService();
+  list: any;
 
   userUri: string = 'http://localhost:3000/users';
   doctorUri: string = 'http://localhost:3000/doctor';
