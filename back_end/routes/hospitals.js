@@ -96,12 +96,7 @@ router.get('/list', (req, res, next) => {
         if (!hospital) {
             return res.json({ success: false, msg: 'No hosptials' })
         } else {
-            return res.status(200).json({
-                hospital: {
-                    id: hospital._id,
-                    name: hospital.name,
-                }
-            })
+            return res.status(200).json(hospital)
         }
     })
 })

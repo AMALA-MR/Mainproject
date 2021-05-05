@@ -14,16 +14,12 @@
                     <!-- <label for="name">ADHAR_NO</label>  -->
                     <input type="text" class="form-control" placeholder="Adhar_number" formControlName="adhar_no">
                     <!-- <label for="name">CONTACT</label>  -->
-                    <input type="text" class="form-control" placeholder="Contact" formControlName="phone_no">
+                    <input type="text" class="form-control" placeholder="Contact" formControlName="phone_no" >
                      <!-- <label for="name">HOSPITAL</label> -->
                    <!-- <input type="text" class="form-control" formControlName="hospital"> -->
                    <select formControlName="hospital" name="hospital">
-                       <option value="">Select Hospitals</option>
-                       <option value="1">RenaiMedicity</option>
-                       <option value="2">EMC</option>
-                       <option value="3">Sunrise</option>
-                       <option value="4">Co-operative</option>
-                       <option value="5">Aster Medicity</option>
+                       <option value="">---select---</option>
+                       <option *ngFor="let val of list" value="{{val._id}}">{{val.name}}</option>
                    </select>
                     <!-- <label for="name">PASSWORD</label>  -->
                     <input type="password" class="form-control" placeholder="password" formControlName="password">

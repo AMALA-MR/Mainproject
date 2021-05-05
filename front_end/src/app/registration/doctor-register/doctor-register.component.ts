@@ -17,7 +17,7 @@ export class DoctorRegisterComponent implements OnInit {
   gender: String;
   age: String;
   hospital:String;
-  list:String;
+  list:any=[];
   submitted =false;
   userForm: FormGroup;
 
@@ -30,8 +30,7 @@ export class DoctorRegisterComponent implements OnInit {
   ngOnInit(): void {
      
      this.authService.gethospital().subscribe(res=>{
-       console.log(res);
-      //  console.log(res.name);
+       this.list=res
       },(error)=>{
         console.log(error)
      });
@@ -44,7 +43,8 @@ export class DoctorRegisterComponent implements OnInit {
       adhar_no:['',[Validators.required]],
       phone_no:['',[Validators.required]],
       hospital:['',[Validators.required]],
-      password:['',[Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
+      password:['',[Validators.required]]
+      //password:['',[Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
     })
   }
   get myForm(){
@@ -54,6 +54,7 @@ export class DoctorRegisterComponent implements OnInit {
   onSubmit(){
     this.submitted=true;
     if(!this.userForm.valid){
+      //console.log(this.userForm.value)
       return false;
     }else{
         this.authService.registerUser(JSON.stringify(this.userForm.value)).subscribe(res=>{
@@ -61,10 +62,10 @@ export class DoctorRegisterComponent implements OnInit {
             this.authService.storeUserToken(res.token, res.user);
             console.log('doctor Successfully Registered');
             if(res.user.type=='doctor')
-            this.router.navigateByUrl('/')
+            this.router.navigateByUrl('')
           }else{
-            console.log('Somethings wrong');
-            // this.router.navigateByUrl('/register')
+            console.log(res.msg);
+            this.router.navigateByUrl('/doctor_register')
           }
         },(error)=>{
           console.log(error)
