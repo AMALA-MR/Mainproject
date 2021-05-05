@@ -19,8 +19,8 @@ router.get('/', (req, res, next) => {
 
 // @desc registration url for normal user
 // @route get /hospital/register
-router.all('/register', function (req, res, next) {
-    const name = req.body.name;
+router.all('/register', function(req, res, next) {
+    const name =req.body.name;
     let newHospital = new Hospital({
         name: req.body.name,
         city: req.body.city,
@@ -31,57 +31,57 @@ router.all('/register', function (req, res, next) {
         password: req.body.password
     });
 
-    Hospital.getUserByName(name, (err, hospital) => {
-        if (err) throw err;
-        if (hospital) {
-            return res.json({ success: false, msg: 'Already have an account' });
+    Hospital.getUserByName(name, (err, hospital)=> {
+        if(err) throw err;
+        if(hospital){
+            return res.json({success: false, msg: 'Already have an account'});
         }
 
-        Hospital.addHospital(newHospital, (err, hospital) => {
-            if (err) {
-                //console.log(err)
-                res.json({ success: false, msg: 'Failed to register hospital' });
-            } else {
-                res.json({ success: true, msg: 'Hospital registered, and send request to admin for approval' });
-                //const token = jwt.sign(hospital.toJSON(), process.env.JWT_KEY,{
-                //    expiresIn: 604800 // one week
-                //});
-                //res.json({
-                //    success: true, token: 'JWT '+token,
-                //    user:{
-                //        id: hospital._id,
-                //        name: hospital.name,
-                //        login_type:"hospital"
-                //    }
-                //});
-            }
-        });
+    Hospital.addHospital(newHospital, (err, hospital) =>{
+        if(err){
+            //console.log(err)
+            res.json({success: false, msg:'Failed to register hospital'});   
+        }else {
+            res.json({success: true, msg:'Hospital registered, and send request to admin for approval'});
+            //const token = jwt.sign(hospital.toJSON(), process.env.JWT_KEY,{
+            //    expiresIn: 604800 // one week
+            //});
+            //res.json({
+            //    success: true, token: 'JWT '+token,
+            //    user:{
+            //        id: hospital._id,
+            //        name: hospital.name,
+            //        login_type:"hospital"
+            //    }
+            //});
+        }
+    });
     });
 });
 
 
 // @desc view doctor pending confirmation list 
 // @route get /hospital/approve
-router.get('/approve/:id', (req, res, next) => {
-    Hospital.getPendingConfirm(req.params.id, (err, hospital) => {
-        if (err) throw err;
-        if (!hospital) {
-            return res.json({ success: false, msg: 'No pending doctors' })
-        } else {
-            return res.status(200).json(hospital)
-        }
+router.get('/approve/:id',(req,res,next)=>{    
+        Hospital.getPendingConfirm(req.params.id,(err, hospital)=> {
+            if(err) throw err;
+            if(!hospital){
+                return res.json({success: false, msg:'No pending doctors'})
+            }else {
+                return res.status(200).json(hospital)
+            }
+        })   
     })
-})
 
 
 // @desc approve doctor by hospital 
 // @route put /hospital/approve/:id
-router.put('/approve/:id', (req, res, next) => {
-    User.findByIdAndUpdate(req.params.id, { $set: req.body }, (error, doctor) => {
-        if (!doctor) {
-            return res.json({ success: false, msg: 'Not found id' })
-        } else {
-            return res.json({ success: true, msg: 'Approved' })
+router.put('/approve/:id',(req,res,next)=>{
+    User.findByIdAndUpdate(req.params.id,{$set: req.body},(error,doctor)=>{
+        if (!doctor){
+            return res.json({success:false ,msg:'Not found id'})   
+        }else{
+            return res.json({success:true,msg:'Approved'})
         }
     })
 })

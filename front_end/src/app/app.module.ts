@@ -23,6 +23,10 @@ import { UserRegisterComponent } from './registration/user-register/user-registe
 import { HospitalRegisterComponent } from './registration/hospital-register/hospital-register.component';
 import { DoctorRegisterComponent } from './registration/doctor-register/doctor-register.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { UserdashboardComponent } from './dashboards/userdashboard/userdashboard.component';
+import { DoctordashboardComponent } from './dashboards/doctordashboard/doctordashboard.component';
+import { HospitaldashboardComponent } from './dashboards/hospitaldashboard/hospitaldashboard.component';
+import { AdmindashboardComponent } from './dashboards/admindashboard/admindashboard.component';
 
 
 @NgModule({
@@ -36,7 +40,11 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     LoginComponent,
     UserRegisterComponent,
     HospitalRegisterComponent,
-    DoctorRegisterComponent
+    DoctorRegisterComponent,
+    UserdashboardComponent,
+    DoctordashboardComponent,
+    HospitaldashboardComponent,
+    AdmindashboardComponent
   ],
   imports: [
     FormsModule,

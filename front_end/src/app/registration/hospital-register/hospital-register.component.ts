@@ -50,12 +50,11 @@ export class HospitalRegisterComponent implements OnInit {
       console.log(this.hospitalForm.value)
         this.authService.registerHospital(JSON.stringify(this.hospitalForm.value)).subscribe(res=>{
           if(res.success){
-            this.authService.storeUserToken(res.token, res.user);
             console.log(res.msg);
-             this.router.navigateByUrl('/hospital/dashboard')
+             this.router.navigateByUrl('/home')
           }else{
             console.log(res.msg);
-             this.router.navigateByUrl('/register')
+             this.router.navigateByUrl('/hospital_register')
           }
         },(error)=>{
           console.log(error)
