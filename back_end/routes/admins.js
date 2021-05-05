@@ -3,9 +3,11 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/db');
+const bcrypt = require('bcryptjs');
 const User = require('../model/user');
 const Hospital = require('../model/hospital')
-const bcrypt = require('bcryptjs');
+const Vaccine = require('../model/vaccine')
+const Stock = require('../model/stock');
 
 require('dotenv').config();
 
@@ -71,6 +73,62 @@ Hospital.findByIdAndUpdate(req.params.id,{$set: req.body},(error,hospital)=>{
         return res.json({success:true,msg:'Approved'})
     }
 })
+})
+
+// @desc add new vaccine list
+// @route post /admin/add/vaccine
+router.post('/add/vaccine',(req,res,next)=>{
+    let newVaccine = new Vaccine({
+        vaccine_name: req.body.vaccine_name
+    });
+    Vaccine.addVaccine(newVaccine,(err,vaccine) =>{
+        if(err){
+            res.json({success: false, msg:'Failed adding new vaccine'})
+        }else{
+            res.json({success: true, msg:'Add new vaccine'})
+        }
+    })
+})
+
+// @desc add stock to hospitals
+// @route post /admin/add/vaccine/hospital
+router.post('/add/vaccine/hospital',(req,res,next)=>{
+    let newData = new Stock({
+        vaccine: req.body.vaccine,
+        hospital: req.body.hospital,
+        available_stock:req.body.available_stock
+    });
+    Stock.addStock(newData,(err,stock) =>{
+        if(err){
+            res.json({success: false, msg:'Failed adding new stock'})
+        }else{
+            res.json({success: true, msg:'Add new stock'})
+        }
+    })
+})
+
+// @desc update the current stock to hospitals
+// @route put /admin/add/vaccine/hospital/:id
+router.put('/add/vaccine/hospital/:id',(req,res,next)=>{
+    const newStock = req.body.new_stock
+    Stock.findById(req.params.id,(err,stock)=>{
+        if(!stock){
+            return res.json({success:false ,msg:'id not found'})   
+        }else{
+            let avaliable=stock.available_stock
+            let total = parseInt(avaliable) + parseInt(newStock)
+            Stock.findByIdAndUpdate(req.params.id,{available_stock: total},(error,newstock)=>{
+            if (error){
+                return res.json({success:false ,msg:'id not found'})   
+            }else{
+                Stock.findById(req.params.id,(err,stock)=>{
+                    if(stock)
+                    return res.json(stock).status(200)
+                })
+            }
+            })
+        }
+    })
 })
 
 module.exports = router;
