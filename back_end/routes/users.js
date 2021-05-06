@@ -3,11 +3,13 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/db');
-const User = require('../model/user');
-const Hospital = require('../model/hospital')
 const bcrypt = require('bcryptjs');
 const validator = require('aadhaar-validator')
-
+const User = require('../model/user');
+const Hospital = require('../model/hospital')
+const Vaccine = require('../model/vaccine')
+const Booking = require('../model/booking')
+const Stock = require('../model/stock')
 
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
@@ -20,7 +22,7 @@ router.get('/', (req, res, next) => {
 });
 
 // @desc registration url for normal user
-// @route get /users/register
+// @route post /users/register
 router.all('/register', function(req, res, next) {
     const adhar_no =req.body.adhar_no;
     if(validator.isValidNumber(adhar_no)){
@@ -135,5 +137,51 @@ router.all('/authenticate', (req, res, next) => {
     });
 });
 
+
+// @desc vaccine list
+// @route get /users/vaccine/list
+router.get('/vaccine/list', (req, res, next) => {
+    Vaccine.find((err, vaccine) => {
+        if (err) throw err;
+        if (!vaccine) {
+            return res.json({ success: false, msg: 'their is no vaccine' })
+        } else {
+            return res.status(200).json(vaccine)
+        }
+    })
+})
+
+// @desc book vaccination date and slot
+// @route post /users/bookings
+router.post('/bookings', function(req, res, next) {
+    let newBook = new Booking({
+        user: req.body.user,
+        hospital: req.body.hospital,
+        date: req.body.date,
+        slot: req.body.slot
+    });
+
+    Booking.addSlot(newBook, (err, user) =>{
+        if(err){
+            console.log(err)
+            res.json({success: false, msg:'Failed to booking'});   
+        }else {
+            res.json({success: true, msg:'Booking suceess'}); 
+        }
+    });
+});
+
+
+// @desc book vaccination date and slot
+// @route get /users/stock/:id
+router.get('/stock/:id', function(req, res, next) {
+    Stock.findOne({hospital: req.params.id},(err,stock)=>{
+        if(stock){
+            if(parseInt(stock.available_stock)<=100){
+                res.json({stock:stock.available_stock})
+            }
+        }
+    })
+})
 
 module.exports = router;
