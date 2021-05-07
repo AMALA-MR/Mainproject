@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CoronaService } from '../shared/corona.service';
+import { CoronaService } from '../../shared/corona.service';
 
 @Component({
   selector: '[app-district]',

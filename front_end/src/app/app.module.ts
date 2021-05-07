@@ -8,25 +8,25 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 
-import { HelpfulLinksComponent } from './helpful-links/helpful-links.component';
-import { FAQComponent } from './faq/faq.component';
+import { HelpfulLinksComponent } from './guest-component/helpful-links/helpful-links.component';
+import { FAQComponent } from './guest-component/faq/faq.component';
 
 import { CoronaService } from './shared/corona.service';
 import { AuthService } from './Services/auth.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { DistrictComponent } from './district/district.component';
-import { LoginComponent } from './login/login.component';
-import { UserRegisterComponent } from './registration/user-register/user-register.component';
-import { HospitalRegisterComponent } from './registration/hospital-register/hospital-register.component';
-import { DoctorRegisterComponent } from './registration/doctor-register/doctor-register.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { UserdashboardComponent } from './dashboards/userdashboard/userdashboard.component';
-import { DoctordashboardComponent } from './dashboards/doctordashboard/doctordashboard.component';
-import { HospitaldashboardComponent } from './dashboards/hospitaldashboard/hospitaldashboard.component';
-import { AdmindashboardComponent } from './dashboards/admindashboard/admindashboard.component';
+import { HomeComponent } from './guest-component/home/home.component';
+import { DistrictComponent } from './guest-component/district/district.component';
+import { LoginComponent } from './guest-component/login/login.component';
+import { UserRegisterComponent } from './user-component/user-register/user-register.component';
+import { HospitalRegisterComponent } from './hospital-component/hospital-register/hospital-register.component';
+import { DoctorRegisterComponent } from './doctor-component/doctor-register/doctor-register.component';
+import { NavBarComponent } from './user-component/nav-bar/nav-bar.component';
+import { UserdashboardComponent } from './user-component/userdashboard/userdashboard.component';
+import { DoctordashboardComponent } from './doctor-component/doctordashboard/doctordashboard.component';
+import { HospitaldashboardComponent } from './hospital-component/hospitaldashboard/hospitaldashboard.component';
+import { AdmindashboardComponent } from './admin-component/admindashboard/admindashboard.component';
 
 
 @NgModule({
