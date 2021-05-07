@@ -156,9 +156,7 @@ router.get('/vaccine/list', (req, res, next) => {
 router.post('/bookings', function(req, res, next) {
     let newBook = new Booking({
         user: req.body.user,
-        hospital: req.body.hospital,
-        date: req.body.date,
-        slot: req.body.slot
+        schedule: req.body.schedule
     });
 
     Booking.addSlot(newBook, (err, user) =>{

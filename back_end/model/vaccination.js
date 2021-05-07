@@ -18,12 +18,15 @@ const VaccinationSchema = mongoose.Schema({
     },
     first_dose_date: {
         type: Date,
+        default: Date.now,
         required: true
     },
     second_dose_date:{
         type: Date
     },
-
+    status: {
+        type: String,
+    }
 });
 
 const Vaccination = module.exports = mongoose.model('Vaccination', VaccinationSchema);

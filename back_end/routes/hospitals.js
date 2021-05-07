@@ -3,9 +3,11 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/db');
+const bcrypt = require('bcryptjs');
 const Hospital = require('../model/hospital');
 const User = require('../model/user')
-const bcrypt = require('bcryptjs');
+const Schedule = require('../model/schedule')
+
 
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
@@ -102,4 +104,21 @@ router.get('/list', (req, res, next) => {
 })
 
 
+// @desc add schedule vaccinations
+// @route post /hospital/add/schedule
+router.post('/add/schedule',(req,res,next)=>{
+    let newSchedule = new Schedule({
+        hospital: req.body.hospital,
+        allocated_amount: req.body.allocated_amount,
+        date: req.body.date,
+        slot: req.body.slot
+    });
+    Schedule.addSchedule(newSchedule,(err,vaccine) =>{
+        if(err){
+            res.json({success: false, msg:'Failed adding new schedule'})
+        }else{
+            res.json({success: true, msg:'new shedule created'})
+        }
+    })
+})
 module.exports = router;
