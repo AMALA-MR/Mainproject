@@ -50,8 +50,26 @@ export class AuthService {
   gethospital(): Observable<any> {
     let url = `${this.hospitalUri}/list`
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
-
   }
+
+  //get vaccine names
+  getVaccine(): Observable<any> {
+    let url = `${this.userUri}/vaccine/list`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+  // add vaccine stock 
+  addVaccineStock(stock): Observable<any> {
+    let url = `${this.adminUri}/add/vaccine/hospital`
+    return this.http.post(url, stock, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+
+  // get main stock details to admin
+  showStock(): Observable<any> {
+    let url = `${this.adminUri}/get/vaccine/stock`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+
+
   //Set token
   storeUserToken(token, user) {
     localStorage.setItem('access_token', token)

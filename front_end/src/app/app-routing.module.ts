@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HelpfulLinksComponent } from './guest-component/helpful-links/helpful-links.component';
 import { FAQComponent } from './guest-component/faq/faq.component';
 import { HomeComponent } from './guest-component/home/home.component';
+import { DistrictComponent } from './guest-component/district/district.component';
 import { LoginComponent } from './guest-component/login/login.component';
 import { UserRegisterComponent } from './user-component/user-register/user-register.component';
 import { HospitalRegisterComponent } from './hospital-component/hospital-register/hospital-register.component';
@@ -11,7 +12,8 @@ import {UserdashboardComponent} from './user-component/userdashboard/userdashboa
 import {DoctordashboardComponent} from './doctor-component/doctordashboard/doctordashboard.component' ;
 import {HospitaldashboardComponent} from './hospital-component/hospitaldashboard/hospitaldashboard.component';
 import {AdmindashboardComponent} from './admin-component/admindashboard/admindashboard.component';
-
+import { AddStockComponent } from './admin-component/add-stock/add-stock.component';
+import { AddVaccineComponent } from './admin-component/add-vaccine/add-vaccine.component';
 
 import { from } from 'rxjs';
 
@@ -30,8 +32,8 @@ const routes: Routes = [
   { path: 'doctordashboard', component: DoctordashboardComponent },
   { path: 'hospitaldashboard', component: HospitaldashboardComponent },
   { path: 'admindashboard', component:  AdmindashboardComponent},
-
-
+  { path: 'stock', component:  AddStockComponent},
+  { path: 'add/vaccine', component: AddVaccineComponent},
 
 ];
 

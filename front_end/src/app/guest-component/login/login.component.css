@@ -1,1 +1,6 @@
-
+.form-control,label,.btn-primary{
+    margin-left: 25em;
+}
+.btn-secondary{
+    margin-left: 10px;
+}

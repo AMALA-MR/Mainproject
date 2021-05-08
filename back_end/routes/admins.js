@@ -96,7 +96,7 @@ router.post('/add/vaccine/hospital',(req,res,next)=>{
     let newData = new Stock({
         vaccine: req.body.vaccine,
         hospital: req.body.hospital,
-        available_stock:req.body.available_stock
+        available_stock:req.body.new_stock
     });
     Stock.addStock(newData,(err,stock) =>{
         if(err){
@@ -133,4 +133,16 @@ router.put('/add/vaccine/hospital/:id',(req,res,next)=>{
 
 
 
+// @desc update the current stock to hospitals
+// @route put /admin/get/vaccine/stock
+router.get('/get/vaccine/stock',(req,res,next)=>{
+    //const newStock = req.body.new_stock
+    Stock.getStock((err,stock)=>{
+        if(!stock){
+            return res.json({success:false ,msg:'id not found'})   
+        }else{
+            return res.json(stock).status(200)
+        }
+    })
+})
 module.exports = router;

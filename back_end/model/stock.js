@@ -26,3 +26,7 @@ const Stock = module.exports = mongoose.model('Stock', StockSchema);
 module.exports.addStock = function(newStock,callback){
     newStock.save(callback)
 }
+
+module.exports.getStock = function(callback){
+  Stock.find(callback).populate('hospital').populate('vaccine') 
+}

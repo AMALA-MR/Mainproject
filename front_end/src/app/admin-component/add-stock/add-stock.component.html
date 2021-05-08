@@ -1,0 +1,72 @@
+<app-anavbar></app-anavbar>
+<form [formGroup]="stockForm" class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Hospitalname">Hospital</label>
+                <select formControlName="hospital" name="hospital">
+                    <option value="">---select---</option>
+                    <option *ngFor="let h of hsptl" value="{{h._id}}">{{h.name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Vaccinename">Vaccine</label>
+                <select formControlName="vaccine" name="vaccine">
+                    <option value="">---select---</option>
+                    <option *ngFor="let v of vcn" value="{{v._id}}">{{v.vaccine_name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="count">Count</label>
+                <input type="text" class="form-control" formControlName="new_stock">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <a class="btn btn-primary" (click)="onSubmit()">Submit</a>
+                <a [routerLink]="['/admindashboard']" class="btn btn-warning">Cancel</a>
+                <!-- <button class="btn btn-primary">Register</button> -->
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="container">
+    <div class="card">
+        <h6>Hospital and Stock details</h6>
+        <div class="center" *ngIf="data==''">
+            <div class="center"><h5 style="color: red;">Nothing you are added........!</h5> </div>
+        </div>
+        <table class="striped" *ngIf="data!=''">
+            <thead>
+                <tr>
+                    <th>Hospital</th>
+                    <th>Vaccine</th>
+                    <th>Stock</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr *ngFor="let val of data" >
+                    <td> {{val.hospital.name}} </td>
+                    <td> {{val.vaccine.vaccine_name}} </td>
+                    <td> {{val.available_stock}} </td>
+                    <td>
+                        <a class="btn btn-secondary" (click)="onUpdate(val._id)">Update</a>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

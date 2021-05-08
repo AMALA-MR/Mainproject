@@ -22,11 +22,17 @@ import { LoginComponent } from './guest-component/login/login.component';
 import { UserRegisterComponent } from './user-component/user-register/user-register.component';
 import { HospitalRegisterComponent } from './hospital-component/hospital-register/hospital-register.component';
 import { DoctorRegisterComponent } from './doctor-component/doctor-register/doctor-register.component';
-import { NavBarComponent } from './user-component/nav-bar/nav-bar.component';
+import { NavBarComponent } from './guest-component/nav-bar/nav-bar.component';
 import { UserdashboardComponent } from './user-component/userdashboard/userdashboard.component';
 import { DoctordashboardComponent } from './doctor-component/doctordashboard/doctordashboard.component';
 import { HospitaldashboardComponent } from './hospital-component/hospitaldashboard/hospitaldashboard.component';
 import { AdmindashboardComponent } from './admin-component/admindashboard/admindashboard.component';
+import { UnavbarComponent } from './user-component/unavbar/unavbar.component';
+import { AnavbarComponent } from './admin-component/anavbar/anavbar.component';
+import { HnavbarComponent } from './hospital-component/hnavbar/hnavbar.component';
+import { DnavbarComponent } from './doctor-component/dnavbar/dnavbar.component';
+import { AddStockComponent } from './admin-component/add-stock/add-stock.component';
+import { AddVaccineComponent } from './admin-component/add-vaccine/add-vaccine.component';
 
 
 @NgModule({
@@ -44,7 +50,13 @@ import { AdmindashboardComponent } from './admin-component/admindashboard/admind
     UserdashboardComponent,
     DoctordashboardComponent,
     HospitaldashboardComponent,
-    AdmindashboardComponent
+    AdmindashboardComponent,
+    UnavbarComponent,
+    AnavbarComponent,
+    HnavbarComponent,
+    DnavbarComponent,
+    AddStockComponent,
+    AddVaccineComponent
   ],
   imports: [
     FormsModule,
