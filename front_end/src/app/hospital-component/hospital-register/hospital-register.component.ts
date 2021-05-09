@@ -35,7 +35,7 @@ export class HospitalRegisterComponent implements OnInit {
       state:['',[Validators.required]],
       pincode:['',[Validators.required]],
       type:['',[Validators.required]],
-      password:['',[Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
+      password:['',[Validators.required]]
     })
   }
   get myForm(){
@@ -45,12 +45,13 @@ export class HospitalRegisterComponent implements OnInit {
   onSubmit(){
     this.submitted=true;
     if(!this.hospitalForm.valid){
+      //console.log(this.hospitalForm.value)
       return false;
     }else{
-      console.log(this.hospitalForm.value)
         this.authService.registerHospital(JSON.stringify(this.hospitalForm.value)).subscribe(res=>{
           if(res.success){
-            console.log(res.msg);
+            //console.log(res.msg);
+            alert(res.msg)
              this.router.navigateByUrl('/home')
           }else{
             console.log(res.msg);

@@ -93,18 +93,39 @@ router.post('/add/vaccine',(req,res,next)=>{
 // @desc add stock to hospitals
 // @route post /admin/add/vaccine/hospital
 router.post('/add/vaccine/hospital',(req,res,next)=>{
-    let newData = new Stock({
-        vaccine: req.body.vaccine,
-        hospital: req.body.hospital,
-        available_stock:req.body.new_stock
-    });
-    Stock.addStock(newData,(err,stock) =>{
-        if(err){
-            res.json({success: false, msg:'Failed adding new stock'})
+    const vaccine= req.body.vaccine;
+    const hospital= req.body.hospital;
+    const newStock = req.body.new_stock
+    Stock.checkHospital(vaccine,hospital,(err,stock)=>{
+        if(!stock){
+            let newData = new Stock({
+                vaccine: req.body.vaccine,
+                hospital: req.body.hospital,
+                available_stock:req.body.new_stock
+            });
+            Stock.addStock(newData,(err,stock) =>{
+                if(err){
+                    res.json({success: false, msg:'Failed adding new stock'})
+                }else{
+                    res.json({success: true, msg:'Add new stock'})
+                }
+            })
         }else{
-            res.json({success: true, msg:'Add new stock'})
+            const available=stock.available_stock
+            let total = parseInt(available) + parseInt(newStock)
+            Stock.findOneAndUpdate({hospital:hospital,vaccine:vaccine},{available_stock: total},(error,newstock)=>{
+            if (error){
+                return res.json({success:false ,msg:'Data not found'})   
+            }else{
+               Stock.findOne({hospital:hospital,vaccine:vaccine},(err,stock)=>{
+                    if(stock)
+                    return res.json(stock).status(200)
+                })
+            }
+            })
         }
     })
+    
 })
 
 // @desc update the current stock to hospitals
@@ -115,8 +136,8 @@ router.put('/add/vaccine/hospital/:id',(req,res,next)=>{
         if(!stock){
             return res.json({success:false ,msg:'id not found'})   
         }else{
-            let avaliable=stock.available_stock
-            let total = parseInt(avaliable) + parseInt(newStock)
+            let available=stock.available_stock
+            let total = parseInt(available) + parseInt(newStock)
             Stock.findByIdAndUpdate(req.params.id,{available_stock: total},(error,newstock)=>{
             if (error){
                 return res.json({success:false ,msg:'id not found'})   

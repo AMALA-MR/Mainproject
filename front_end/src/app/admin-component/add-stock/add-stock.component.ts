@@ -62,13 +62,12 @@ export class AddStockComponent implements OnInit {
   }
   onSubmit() {
 
-    this.submitted == true;
+    this.submitted = true;
     if (!this.stockForm.valid) {
       return false;
     }else {
       this.authService.addVaccineStock(JSON.stringify(this.stockForm.value)).subscribe(res =>{
-        if(res.success){
-          //this.ngZone.run(() =>this.router.navigateByUrl('stock'))
+        if(res!=undefined){
           this.router.navigateByUrl('stock')
           this.ngOnInit();
         } else{
