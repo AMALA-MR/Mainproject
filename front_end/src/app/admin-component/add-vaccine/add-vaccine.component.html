@@ -1,2 +1,45 @@
 <app-anavbar></app-anavbar>
-<p>add-vaccine works!</p>
+<form [formGroup]="vaccineForm" (submit)="onSubmit()" class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Name">Vaccine</label>
+                <input type="text" class="form-control" formControlName="vaccine_name">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Submit">
+                <a [routerLink]="['/admindashboard']" class="btn btn-warning">Cancel</a>
+                <!-- <button class="btn btn-primary">Register</button> -->
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="container">
+    <div class="card">
+        <h4>Vaccine Names</h4>
+        <div class="center" *ngIf="data==''">
+            <div class="center"><h5 style="color: red;">Nothing you are added........!</h5> </div>
+        </div>
+        <table class="striped" *ngIf="data!=''">
+            <thead>
+                <tr>
+                    <th>Sl.no</th>
+                    <th>Vaccine</th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr *ngFor="let val of data ;let i=index" >
+                    <td>{{i+1}}</td>
+                    <td> {{val.vaccine_name}} </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+</div>

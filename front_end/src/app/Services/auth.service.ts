@@ -57,6 +57,12 @@ export class AuthService {
     let url = `${this.userUri}/vaccine/list`
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
+
+  //add vaccine details
+  addVaccine(vaccine): Observable<any> {
+    let url = `${this.adminUri}/add/vaccine`
+    return this.http.post(url, vaccine, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
   // add vaccine stock 
   addVaccineStock(stock): Observable<any> {
     let url = `${this.adminUri}/add/vaccine/hospital`

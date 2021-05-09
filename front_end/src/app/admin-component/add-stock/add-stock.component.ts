@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../../Services/auth.service';
@@ -22,7 +22,6 @@ export class AddStockComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private ngZone: NgZone
   ) { this.mainForm(); }
 
   ngOnInit(): void {
@@ -58,8 +57,21 @@ export class AddStockComponent implements OnInit {
   }
 
   onUpdate(id){
-
+    this.authService.addVaccineStock(JSON.stringify(this.stockForm.value)).subscribe(res =>{
+      if(res!=undefined){
+        this.router.navigateByUrl('stock')
+        this.stockForm.reset()
+        this.ngOnInit();
+      } else{
+        this.invalid=res.msg
+        console.log(res.msg)
+      }
+    },(error)=> {
+      console.log(error)
+    });
   }
+
+
   onSubmit() {
 
     this.submitted = true;
@@ -69,6 +81,7 @@ export class AddStockComponent implements OnInit {
       this.authService.addVaccineStock(JSON.stringify(this.stockForm.value)).subscribe(res =>{
         if(res!=undefined){
           this.router.navigateByUrl('stock')
+          this.stockForm.reset()
           this.ngOnInit();
         } else{
           this.invalid=res.msg
