@@ -18,6 +18,9 @@ const StockSchema = mongoose.Schema({
     available_stock: {
         type: String,
         required: true
+    },
+    temp_stock:{
+        type: String
     }
 });
 
@@ -35,4 +38,9 @@ module.exports.getStock = function(callback){
 module.exports.checkHospital = function(vaccine,hospital,callback){
     const query= {vaccine:vaccine, hospital:hospital}
     Stock.findOne(query,callback)
+}
+
+module.exports.getStockVaccine = function(id,callback){
+    const query= {hospital:id,temp_stock:{$gt:0}}
+    Stock.find(query,callback).populate('vaccine')
 }

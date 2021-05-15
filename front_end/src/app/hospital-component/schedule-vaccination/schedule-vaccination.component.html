@@ -1,0 +1,91 @@
+<app-hnavbar></app-hnavbar>
+<form [formGroup]="scheduleForm" (submit)="onSubmit()" class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="vaccine">Vaccine</label><br>
+                <select formControlName="vaccine" name="vaccine" class="form-control">
+                    <option value="">---select---</option>
+                    <option *ngFor="let v of vcn" value="{{v.vaccine._id}}">{{v.vaccine.vaccine_name}}</option>
+                </select>
+                <label class="form-feedback" *ngIf="submitted && myForm.vaccine.errors?.required">*Select&nbsp;vaccine.</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" formControlName="date">
+                <label class="form-feedback" *ngIf="submitted && myForm.date.errors?.required">*Select&nbsp;date.</label>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="slot">Slot</label><br>
+                <select formControlName="slot" name="slot" class="form-control">
+                    <option value="">---select---</option>
+                    <option value="10am-11am">10am-11am</option>
+                    <option value="11am-12pm">11am-12pm</option>
+                    <option value="12pm-01pm">12pm-01pm</option>
+                    <option value="02pm-03pm">02pm-03pm</option>
+                    <option value="03pm-04pm">03pm-04pm</option>
+                </select>
+                <label class="form-feedback" *ngIf="submitted && myForm.slot.errors?.required">*Select&nbsp;slot.</label>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Count">Count</label>
+                <input type="number" class="form-control" formControlName="allocated_amount">
+                <label class="form-feedback" *ngIf="submitted && myForm.allocated_amount.errors?.required">*Vaccine&nbsp;count&nbsp;is&nbsp;required.</label>
+                <label class="form-feedback" *ngIf="invalid!='' ">*Only&nbsp;{{invalid}}&nbsp;stock&nbsp;is&nbsp;avaliable</label>
+                <label class="form-feedback" *ngIf="max!='' ">*Maximum&nbsp;{{20}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Submit">
+                <a [routerLink]="['/admindashboard']" class="btn btn-warning">Cancel</a>
+                <!-- <button class="btn btn-primary">Register</button> -->
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="container">
+    <div class="card">
+        <h4>Schedule details</h4>
+        <div class="center" *ngIf="data==''">
+            <div class="center"><h5 style="color: red;">Nothing you are added........!</h5> </div>
+        </div>
+        <table class="table table-striped" *ngIf="data!=''">
+            <thead>
+                <tr>
+                    <th>Sl.no</th>
+                    <th>Hospital</th>
+                    <th>Vaccine</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr *ngFor="let val of data ; let i=index" >
+                    <td>{{i+1}}</td>
+                    <td> {{val.hospital.name}} </td>
+                    <td> {{val.vaccine.vaccine_name}} </td>
+                    <td> {{val.available_stock}} </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+</div>
+-->

@@ -3,25 +3,24 @@
         <img class="fadeInUp img-circle logo" alt="COVID-19 Tracker" src="assets/heading4.png"
             style="animation-delay: 0s; transition: all 0.3s ease-in-out 0s;">
         <div class="navbar-left">
-            <a routerLink="/admin/dashboard" routerLinkActive="active">
+            <a *ngIf="!authService.loggedIn();" routerLink="/admindashboard" routerLinkActive="active">
                 <span class="fadeInUp" style="animation-delay: 0.2s;">Home</span>
             </a>
-            <a routerLink="/stock" routerLinkActive="active">
+            <a *ngIf="!authService.loggedIn();" routerLink="/stock" routerLinkActive="active">
                 <span class="fadeInUp " style="animation-delay: 0.5s;">Stock</span>
             </a>
             <!-- <a routerLink="/faq" routerLinkActive="active">
                 <span class="fadeInUp " style="animation-delay: 0.6s;">FAQ</span>
             </a> -->
             
-            <a routerLink="/add/vaccine" routerLinkActive="active">
+            <a *ngIf="!authService.loggedIn();" routerLink="/add/vaccine" routerLinkActive="active">
                 <span class="fadeInUp " style="animation-delay: 0.5s;">Add Vaccine</span>
             </a>
-            <a routerLink="/login" routerLinkActive="active">
-                <span class="fadeInUp " style="animation-delay: 0.5s;">Login</span>
+            <a *ngIf="!authService.loggedIn();" routerLink="/view/requests" routerLinkActive="active">
+                <span class="fadeInUp " style="animation-delay: 0.5s;">Hospital Requests</span>
             </a> 
-            <a routerLink="/user_register" routerLinkActive="active">
-                <span class="fadeInUp " style="animation-delay: 0.5s;">Sign-up</span>
-
+            <a *ngIf="!authService.loggedIn();" (click)='onLogoutClick()'>
+                <span class="fadeInUp " style="animation-delay: 0.5s;">Logout</span>
             </a> 
 
         </div>

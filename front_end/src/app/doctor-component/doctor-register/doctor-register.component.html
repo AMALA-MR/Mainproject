@@ -19,7 +19,7 @@
                     <input type="text" class="form-control" placeholder="Contact" formControlName="phone_no" >
                      <!-- <label for="name">HOSPITAL</label> -->
                    <!-- <input type="text" class="form-control" formControlName="hospital"> -->
-                   <select formControlName="hospital" name="hospital">
+                   <select formControlName="hospital" name="hospital" class="form-control">
                        <option value="">---select---</option>
                        <option *ngFor="let val of list" value="{{val._id}}">{{val.name}}</option>
                    </select>

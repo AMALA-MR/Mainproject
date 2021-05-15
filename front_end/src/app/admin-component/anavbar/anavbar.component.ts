@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CoronaService } from '../../shared/corona.service';
 import { Subscription, BehaviorSubject, interval } from 'rxjs';
+import { AuthService } from '../../Services/auth.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-anavbar',
@@ -16,7 +18,11 @@ export class AnavbarComponent implements OnInit {
   count
   subscription: Subscription;
   intervalId: number;
-  constructor(private cs: CoronaService) { }
+  constructor(
+    private cs: CoronaService,
+    public authService: AuthService,
+    private router: Router,
+    ) { }
   
   
   ngOnInit(): void {
@@ -49,5 +55,11 @@ export class AnavbarComponent implements OnInit {
     });
   }
   
+  onLogoutClick(){
+    if(window.confirm('Are you sure to exit?')){
+      this.authService.logout();
+      this.router.navigateByUrl('/login')
+    }
+  }
 
 }

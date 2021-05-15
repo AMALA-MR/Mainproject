@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 const Hospital = require('../model/hospital');
 const User = require('../model/user')
 const Schedule = require('../model/schedule')
-
+const Stock =require('../model/stock')
 
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
@@ -89,6 +89,19 @@ router.put('/approve/:id',(req,res,next)=>{
 })
 
 
+// @desc vaccine list
+// @route get /hospital/vaccine/list/:id
+router.get('/vaccine/list/:id', (req, res, next) => {
+    Stock.getStockVaccine(req.params.id,(err, vaccine) => {
+        if (err) throw err;
+        if (!vaccine) {
+            return res.json({ success: false, msg: 'their is no vaccine' })
+        } else {
+            return res.status(200).json(vaccine)
+        }
+    })
+})
+
 // @desc approved hospital list
 // @route get /hospital/list
 router.get('/list', (req, res, next) => {
@@ -107,18 +120,51 @@ router.get('/list', (req, res, next) => {
 // @desc add schedule vaccinations
 // @route post /hospital/add/schedule
 router.post('/add/schedule',(req,res,next)=>{
+    const vaccine= req.body.vaccine;
+    const hospital= req.body.hospital;
+    const allocated_amount = req.body.allocated_amount
+    const date = req.body.date;
+    const slot=req.body.slot;
+
     let newSchedule = new Schedule({
         hospital: req.body.hospital,
+        vaccine:req.body.vaccine,
         allocated_amount: req.body.allocated_amount,
         date: req.body.date,
         slot: req.body.slot
     });
-    Schedule.addSchedule(newSchedule,(err,vaccine) =>{
-        if(err){
-            res.json({success: false, msg:'Failed adding new schedule'})
+    Schedule.findOne({vaccine:vaccine, hospital:hospital,date:date,slot:slot},(err,schedules)=>{
+        if(!schedules){
+            res.json({success: false, msg:'Record already found'})
         }else{
-            res.json({success: true, msg:'new shedule created'})
+            Stock.checkHospital(vaccine,hospital,(err,stock)=>{
+                if(!stock){
+                    res.json({success: false, msg:'Record not found'})
+                }else{
+                    const temp=stock.temp_stock
+                    if (parseInt(temp)<parseInt(allocated_amount))
+                    {
+                        res.json({success: false, stock:temp})
+                    }else{
+                        let temp_stock = parseInt(temp) - parseInt(allocated_amount)
+                        Stock.findOneAndUpdate({hospital:hospital,vaccine:vaccine},{temp_stock:temp_stock},(error,newstock)=>{
+                            if (error){
+                                return res.json({success:false ,msg:'Data not found'})   
+                            }else{
+                                Schedule.addSchedule(newSchedule,(err,data) =>{
+                                    if(err){
+                                        res.json({success: false, msg:'Failed adding new schedule'})
+                                    }else{
+                                        return res.json(data).status(200)
+                                    }
+                                })
+                            }
+                        })
+                    }
+                }
+            })
         }
     })
+    //res.json({success: true, msg:'new shedule created'})
 })
 module.exports = router;

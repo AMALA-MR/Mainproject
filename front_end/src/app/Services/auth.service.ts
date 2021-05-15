@@ -51,12 +51,28 @@ export class AuthService {
     let url = `${this.hospitalUri}/list`
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
+  // approve hospital
+  approvehospital(id,confirm): Observable<any> {
+  let url = `${this.adminUri}/approve/${id}`
+  return this.http.put(url,confirm, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+}
+  // get requested hospital list
+  gethospitalrequest(): Observable<any> {
+    let url = `${this.adminUri}/approve`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
 
   //get vaccine names
   getVaccine(): Observable<any> {
     let url = `${this.userUri}/vaccine/list`
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
+
+  getStockVaccine(hid): Observable<any> {
+    let url = `${this.hospitalUri}/vaccine/list/${hid}`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  } 
+
 
   //add vaccine details
   addVaccine(vaccine): Observable<any> {
@@ -75,7 +91,11 @@ export class AuthService {
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 
-
+  //Schedule Vaccination slots by Hospital
+  scheduleSlot(schedule): Observable<any> {
+    let url = `${this.hospitalUri}/add/schedule`
+    return this.http.post(url,schedule,{ headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
   //Set token
   storeUserToken(token, user) {
     localStorage.setItem('access_token', token)

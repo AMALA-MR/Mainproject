@@ -7,6 +7,11 @@ const ScheduleSchema = mongoose.Schema({
         ref: 'Hospital',
         required: true
     },
+    vaccine: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Vaccine',
+        required: true
+    },
     allocated_amount: {
         type: String,
         required: true

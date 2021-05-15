@@ -4,7 +4,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="Hospitalname">Hospital</label>
-                <select formControlName="hospital" name="hospital">
+                <select formControlName="hospital" name="hospital"class="form-control">
                     <option value="">---select---</option>
                     <option *ngFor="let h of hsptl" value="{{h._id}}">{{h.name}}</option>
                 </select>
@@ -15,7 +15,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="Vaccinename">Vaccine</label>
-                <select formControlName="vaccine" name="vaccine">
+                <select formControlName="vaccine" name="vaccine" class="form-control">
                     <option value="">---select---</option>
                     <option *ngFor="let v of vcn" value="{{v._id}}">{{v.vaccine_name}}</option>
                 </select>
@@ -47,7 +47,7 @@
         <div class="center" *ngIf="data==''">
             <div class="center"><h5 style="color: red;">Nothing you are added........!</h5> </div>
         </div>
-        <table class="striped" *ngIf="data!=''">
+        <table class="table table-striped" *ngIf="data!=''">
             <thead>
                 <tr>
                     <th>Sl.no</th>

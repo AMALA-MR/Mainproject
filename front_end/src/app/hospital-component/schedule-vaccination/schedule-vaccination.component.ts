@@ -1,0 +1,88 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { AuthService } from '../../Services/auth.service';
+
+@Component({
+  selector: 'app-schedule-vaccination',
+  templateUrl: './schedule-vaccination.component.html',
+  styleUrls: ['./schedule-vaccination.component.css']
+})
+export class ScheduleVaccinationComponent implements OnInit {
+  submitted = false;
+  scheduleForm: FormGroup;
+  vcn:any=[];
+  data:any=[];
+  //hospital_id: String
+  invalid: String;
+  max: String;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+  ) { this.mainForm();  }
+
+  ngOnInit(): void {
+    this.invalid="";
+    this.max="";
+    const hospital= JSON.parse(localStorage.getItem('user'))
+
+    this.authService.getStockVaccine(hospital.id).subscribe(res=>{
+      this.vcn=res
+     },(error)=>{
+       console.log(error)
+    });
+  }
+
+  mainForm() {
+    this.scheduleForm = this.formBuilder.group({
+      vaccine: ['', Validators.required],
+      date: ['', Validators.required],
+      slot: ['', Validators.required],
+      allocated_amount:['', Validators.required]
+    });
+  }
+
+  get myForm(){
+    return this.scheduleForm.controls;
+  }
+
+
+  onSubmit(){
+    this.submitted = true;
+    const val= this.scheduleForm.value
+    const hospital= JSON.parse(localStorage.getItem('user'))
+    const values={
+      vaccine:val.vaccine,
+      hospital:hospital.id,
+      date:val.date,
+      slot:val.slot,
+      allocated_amount:val.allocated_amount,
+    }
+    if (!this.scheduleForm.valid) {
+      return false;
+    }else if(parseInt(val.vaccine) > 20){
+      this.max="20"
+      return false
+    }else {
+      this.authService.scheduleSlot(JSON.stringify(values)).subscribe(res =>{
+        if(!res.success){
+          this.invalid=res.stock
+          //console.log(this.invalid)
+        }else if(res!=undefined){
+          this.router.navigateByUrl('schedule/vaccination')
+          this.scheduleForm.reset()
+          this.ngOnInit();
+        } else{
+          this.invalid=res.msg
+          //console.log(res.msg)
+          //this.router.navigateByUrl('/login')
+        }
+      },(error)=> {
+        console.log(error)
+      });
+    }
+
+  }
+}

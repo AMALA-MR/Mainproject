@@ -1,1 +1,36 @@
-<p>hnavbar works!</p>
+<div class="container">
+    <div class="Navbar" style="animation-delay: 0.5s; transition: all 0.3s ease-in-out 0s;">
+        <img class="fadeInUp img-circle logo" alt="COVID-19 Tracker" src="assets/heading4.png"
+            style="animation-delay: 0s; transition: all 0.3s ease-in-out 0s;">
+        <div class="navbar-left">
+            <a *ngIf="!authService.loggedIn();" routerLink="/hospitaldashboard" routerLinkActive="active">
+                <span class="fadeInUp" style="animation-delay: 0.2s;">Home</span>
+            </a>
+            <a *ngIf="!authService.loggedIn();" routerLink="/schedule/vaccination" routerLinkActive="active">
+                <span class="fadeInUp " style="animation-delay: 0.5s;">Schedule Booking Slot</span>
+            </a>
+            <!-- <a routerLink="/faq" routerLinkActive="active">
+                <span class="fadeInUp " style="animation-delay: 0.6s;">FAQ</span>
+            </a> -->
+            
+            <a *ngIf="!authService.loggedIn();" routerLink="/view/booked" routerLinkActive="active">
+                <span class="fadeInUp " style="animation-delay: 0.5s;">View Bookings</span>
+            </a>
+            <a *ngIf="!authService.loggedIn();" routerLink="/doctor/requests" routerLinkActive="active">
+                <span class="fadeInUp " style="animation-delay: 0.5s;">Doctor Requests</span>
+            </a> 
+            <a *ngIf="!authService.loggedIn();" (click)='onLogoutClick()'>
+                <span class="fadeInUp " style="animation-delay: 0.5s;">Logout</span>
+            </a> 
+
+        </div>
+    </div>
+</div>
+<div class="Banner fadeInUp" style="animation-delay: 0.2s;">
+    <div class="snippet" *ngIf="BannerData else noBanner">{{BannerData}} &nbsp;</div>
+    <ng-template #noBanner>
+        <div class="snippet">#BreakTheChain of unverified WhatsApp forwards which spread wrong information! Do not
+            forward unless you verify it.</div>
+    </ng-template>
+
+</div>

@@ -1,0 +1,14 @@
+.form-control,label,.btn-primary, select{
+    margin-left: 25em;
+}
+.btn-warning{
+    margin-left: 10px;
+}
+.center{
+    margin-left: 10em;
+    margin-top: 1rem;
+}
+.form-feedback{
+    color: red;
+    margin-left: 25em;
+}

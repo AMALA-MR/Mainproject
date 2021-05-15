@@ -14,9 +14,11 @@ import {HospitaldashboardComponent} from './hospital-component/hospitaldashboard
 import {AdmindashboardComponent} from './admin-component/admindashboard/admindashboard.component';
 import { AddStockComponent } from './admin-component/add-stock/add-stock.component';
 import { AddVaccineComponent } from './admin-component/add-vaccine/add-vaccine.component';
+import { ViewRequestComponent } from './admin-component/view-request/view-request.component';
+import { ScheduleVaccinationComponent } from './hospital-component/schedule-vaccination/schedule-vaccination.component';
 
 import { from } from 'rxjs';
-
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   
@@ -28,13 +30,14 @@ const routes: Routes = [
   { path: 'user_register', component: UserRegisterComponent },
   { path: 'hospital_register', component: HospitalRegisterComponent },
   { path: 'doctor_register', component: DoctorRegisterComponent },
-  { path: 'userdashboard', component: UserdashboardComponent },
-  { path: 'doctordashboard', component: DoctordashboardComponent },
-  { path: 'hospitaldashboard', component: HospitaldashboardComponent },
-  { path: 'admindashboard', component:  AdmindashboardComponent},
-  { path: 'stock', component:  AddStockComponent},
-  { path: 'add/vaccine', component: AddVaccineComponent},
-
+  { path: 'userdashboard', component: UserdashboardComponent,canActivate:[AuthGuard] },
+  { path: 'doctordashboard', component: DoctordashboardComponent,canActivate:[AuthGuard] },
+  { path: 'hospitaldashboard', component: HospitaldashboardComponent,canActivate:[AuthGuard] },
+  { path: 'admindashboard', component:  AdmindashboardComponent,canActivate:[AuthGuard]},
+  { path: 'stock', component:  AddStockComponent,canActivate:[AuthGuard]},
+  { path: 'add/vaccine', component: AddVaccineComponent,canActivate:[AuthGuard]},
+  { path: 'view/requests', component: ViewRequestComponent,canActivate:[AuthGuard]},
+  { path: 'schedule/vaccination', component: ScheduleVaccinationComponent,canActivate:[AuthGuard]},
 ];
 
 @NgModule({

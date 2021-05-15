@@ -101,7 +101,8 @@ router.post('/add/vaccine/hospital',(req,res,next)=>{
             let newData = new Stock({
                 vaccine: req.body.vaccine,
                 hospital: req.body.hospital,
-                available_stock:req.body.new_stock
+                available_stock:req.body.new_stock,
+                temp_stock:req.body.new_stock
             });
             Stock.addStock(newData,(err,stock) =>{
                 if(err){
@@ -112,8 +113,10 @@ router.post('/add/vaccine/hospital',(req,res,next)=>{
             })
         }else{
             const available=stock.available_stock
+            const temp=stock.temp_stock
             let total = parseInt(available) + parseInt(newStock)
-            Stock.findOneAndUpdate({hospital:hospital,vaccine:vaccine},{available_stock: total},(error,newstock)=>{
+            let temp_stock = parseInt(temp) + parseInt(newStock)
+            Stock.findOneAndUpdate({hospital:hospital,vaccine:vaccine},{available_stock: total,temp_stock:temp_stock},(error,newstock)=>{
             if (error){
                 return res.json({success:false ,msg:'Data not found'})   
             }else{
@@ -138,7 +141,8 @@ router.put('/add/vaccine/hospital/:id',(req,res,next)=>{
         }else{
             let available=stock.available_stock
             let total = parseInt(available) + parseInt(newStock)
-            Stock.findByIdAndUpdate(req.params.id,{available_stock: total},(error,newstock)=>{
+            let temp_stock = parseInt(temp) + parseInt(newStock)
+            Stock.findByIdAndUpdate(req.params.id,{available_stock: total,temp_stock:temp_stock},(error,newstock)=>{
             if (error){
                 return res.json({success:false ,msg:'id not found'})   
             }else{

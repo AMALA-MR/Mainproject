@@ -10,12 +10,12 @@
                     <div class="invalid-feedback" *ngIf="submitted && myForm.name.errors?.required">
                         *Hospital name is required.
                     </div>
-                    <select formControlName="state">
+                    <select formControlName="state" class="form-control">
                         <option value="">Select State</option>
-                        <option value="1">Kerala</option>
+                        <option value="Kerala">Kerala</option>
                     </select><br>
                     <!-- <input type="text" class="form-control" placeholder="district" formControlName="district"> -->
-                    <select formControlName="district">
+                    <select formControlName="district" class="form-control">
                         <option value="">Select District</option>
                         <option value="Thiruvananthapuram">Thiruvananthapuram</option>
                         <option value="Kollam">Kollam</option>
@@ -36,7 +36,7 @@
                     <input type="text" class="form-control" placeholder="City" formControlName="city">
                     <input type="text" class="form-control" placeholder="pincode" formControlName="pincode">
                     <!-- <input type="text" class="form-control" placeholder="pincode" formControlName="type"> -->
-                    <select formControlName="type">
+                    <select formControlName="type" class="form-control">
                         <option value="">Select Category</option>
                         <option value="private">Private</option>
                         <option value="govt">Goverment</option>

@@ -13,6 +13,7 @@ import { FAQComponent } from './guest-component/faq/faq.component';
 
 import { CoronaService } from './shared/corona.service';
 import { AuthService } from './Services/auth.service';
+import { AuthGuard } from './services/auth.guard';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,6 +34,8 @@ import { HnavbarComponent } from './hospital-component/hnavbar/hnavbar.component
 import { DnavbarComponent } from './doctor-component/dnavbar/dnavbar.component';
 import { AddStockComponent } from './admin-component/add-stock/add-stock.component';
 import { AddVaccineComponent } from './admin-component/add-vaccine/add-vaccine.component';
+import { ViewRequestComponent } from './admin-component/view-request/view-request.component';
+import { ScheduleVaccinationComponent } from './hospital-component/schedule-vaccination/schedule-vaccination.component';
 
 
 @NgModule({
@@ -56,7 +59,9 @@ import { AddVaccineComponent } from './admin-component/add-vaccine/add-vaccine.c
     HnavbarComponent,
     DnavbarComponent,
     AddStockComponent,
-    AddVaccineComponent
+    AddVaccineComponent,
+    ViewRequestComponent,
+    ScheduleVaccinationComponent
   ],
   imports: [
     FormsModule,
@@ -70,7 +75,7 @@ import { AddVaccineComponent } from './admin-component/add-vaccine/add-vaccine.c
     MatButtonModule,
     MatCardModule
   ],
-  providers: [CoronaService,AuthService],
+  providers: [CoronaService,AuthService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
