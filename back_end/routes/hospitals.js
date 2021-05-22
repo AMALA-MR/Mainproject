@@ -134,7 +134,7 @@ router.post('/add/schedule',(req,res,next)=>{
         slot: req.body.slot
     });
     Schedule.findOne({vaccine:vaccine, hospital:hospital,date:date,slot:slot},(err,schedules)=>{
-        if(!schedules){
+        if(schedules){
             res.json({success: false, msg:'Record already found'})
         }else{
             Stock.checkHospital(vaccine,hospital,(err,stock)=>{
@@ -166,5 +166,19 @@ router.post('/add/schedule',(req,res,next)=>{
         }
     })
     //res.json({success: true, msg:'new shedule created'})
+})
+
+
+// @desc view schedule vaccinations
+// @route get /hospital/view/schedule/:id
+router.get('/view/schedule/:id',(req,res,next)=>{
+    Schedule.viewSchedule(req.params.id,(err, schedules) => {
+        if (err) throw err;
+        if (!schedules) {
+            return res.json({ success: false, msg: 'No Schedules Found' })
+        } else {
+            return res.status(200).json(schedules)
+        }
+    })
 })
 module.exports = router;

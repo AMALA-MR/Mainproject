@@ -68,11 +68,17 @@ export class AuthService {
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 
+  //get stock for a particular hospital
   getStockVaccine(hid): Observable<any> {
     let url = `${this.hospitalUri}/vaccine/list/${hid}`
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   } 
 
+  // get schedules in a particular hospital
+  getSchedule(hid): Observable<any> {
+    let url = `${this.hospitalUri}/view/schedule/${hid}`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  } 
 
   //add vaccine details
   addVaccine(vaccine): Observable<any> {

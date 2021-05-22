@@ -63,7 +63,15 @@
 
 <div class="container">
     <div class="card">
-        <h4>Schedule details</h4>
+        <div>
+            <h4>Schedule details
+                <form action="">
+                 
+                    <input type="date" name="searchDate" placeholder="Search" [(ngModel)]="searchDate" style="margin-left: 35em;">
+                </form>
+            </h4>
+        </div>
+        
         <div class="center" *ngIf="data==''">
             <div class="center"><h5 style="color: red;">Nothing you are added........!</h5> </div>
         </div>
@@ -71,21 +79,22 @@
             <thead>
                 <tr>
                     <th>Sl.no</th>
-                    <th>Hospital</th>
+                    <th>Date</th>
+                    <th>Slot</th>
                     <th>Vaccine</th>
                     <th>Stock</th>
                 </tr>
             </thead>
             <tbody >
-                <tr *ngFor="let val of data ; let i=index" >
+                <tr *ngFor="let val of data | filter: searchDate ; let i=index" >
                     <td>{{i+1}}</td>
-                    <td> {{val.hospital.name}} </td>
+                    <td> {{val.date| date:'dd-MM-yyyy'}} </td>
+                    <td> {{val.slot}} </td>
                     <td> {{val.vaccine.vaccine_name}} </td>
-                    <td> {{val.available_stock}} </td>
+                    <td> {{val.allocated_amount}} </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <br>
 </div>
--->

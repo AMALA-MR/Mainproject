@@ -34,3 +34,8 @@ const Schedule = module.exports = mongoose.model('Schedule', ScheduleSchema);
 module.exports.addSchedule = function(newSchedule,callback){
     newSchedule.save(callback)
 }
+
+module.exports.viewSchedule = function(hid,callback){
+    const query = {hospital:hid}
+    Schedule.find(query,callback).populate('hospital').populate('vaccine')
+}

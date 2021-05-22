@@ -7,6 +7,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { HelpfulLinksComponent } from './guest-component/helpful-links/helpful-links.component';
 import { FAQComponent } from './guest-component/faq/faq.component';
@@ -73,7 +74,8 @@ import { ScheduleVaccinationComponent } from './hospital-component/schedule-vacc
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    Ng2SearchPipeModule
   ],
   providers: [CoronaService,AuthService,AuthGuard],
   bootstrap: [AppComponent]

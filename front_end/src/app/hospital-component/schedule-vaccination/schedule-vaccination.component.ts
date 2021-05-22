@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../../Services/auth.service';
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-schedule-vaccination',
@@ -11,8 +12,11 @@ import { AuthService } from '../../Services/auth.service';
 export class ScheduleVaccinationComponent implements OnInit {
   submitted = false;
   scheduleForm: FormGroup;
+  searchDate:string;
+  
   vcn:any=[];
   data:any=[];
+
   //hospital_id: String
   invalid: String;
   max: String;
@@ -24,6 +28,7 @@ export class ScheduleVaccinationComponent implements OnInit {
   ) { this.mainForm();  }
 
   ngOnInit(): void {
+    this.searchDate = moment().format('yyyy-MM-DD')
     this.invalid="";
     this.max="";
     const hospital= JSON.parse(localStorage.getItem('user'))
@@ -33,8 +38,15 @@ export class ScheduleVaccinationComponent implements OnInit {
      },(error)=>{
        console.log(error)
     });
-  }
 
+    this.authService.getSchedule(hospital.id).subscribe(res=>{
+      this.data=res
+      console.log(res)
+     },(error)=>{
+       console.log(error)
+    });
+
+  }
   mainForm() {
     this.scheduleForm = this.formBuilder.group({
       vaccine: ['', Validators.required],
@@ -42,13 +54,19 @@ export class ScheduleVaccinationComponent implements OnInit {
       slot: ['', Validators.required],
       allocated_amount:['', Validators.required]
     });
+    //this.searchForm = this.formBuilder.group({
+    //  searchdate:['', Validators.required]
+    //})
   }
 
   get myForm(){
     return this.scheduleForm.controls;
   }
 
+  //selectDate(){
+   // console.log(this.searchForm.value)
 
+  //}
   onSubmit(){
     this.submitted = true;
     const val= this.scheduleForm.value
@@ -62,11 +80,12 @@ export class ScheduleVaccinationComponent implements OnInit {
     }
     if (!this.scheduleForm.valid) {
       return false;
-    }else if(parseInt(val.vaccine) > 20){
+    }else if(parseInt(val.allocated_amount) > 20){
       this.max="20"
       return false
     }else {
       this.authService.scheduleSlot(JSON.stringify(values)).subscribe(res =>{
+        console.log(res)
         if(!res.success){
           this.invalid=res.stock
           //console.log(this.invalid)
