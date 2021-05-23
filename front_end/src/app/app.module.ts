@@ -37,6 +37,7 @@ import { AddStockComponent } from './admin-component/add-stock/add-stock.compone
 import { AddVaccineComponent } from './admin-component/add-vaccine/add-vaccine.component';
 import { ViewRequestComponent } from './admin-component/view-request/view-request.component';
 import { ScheduleVaccinationComponent } from './hospital-component/schedule-vaccination/schedule-vaccination.component';
+import { ViewrequestComponent } from './hospital-component/viewrequest/viewrequest.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { ScheduleVaccinationComponent } from './hospital-component/schedule-vacc
     AddStockComponent,
     AddVaccineComponent,
     ViewRequestComponent,
-    ScheduleVaccinationComponent
+    ScheduleVaccinationComponent,
+    ViewrequestComponent
   ],
   imports: [
     FormsModule,
