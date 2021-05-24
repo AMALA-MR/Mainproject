@@ -45,7 +45,7 @@
                 <label for="Count">Count</label>
                 <input type="number" class="form-control" formControlName="allocated_amount">
                 <label class="form-feedback" *ngIf="submitted && myForm.allocated_amount.errors?.required">*Vaccine&nbsp;count&nbsp;is&nbsp;required.</label>
-                <label class="form-feedback" *ngIf="invalid!='' ">*Only&nbsp;{{invalid}}&nbsp;stock&nbsp;is&nbsp;avaliable</label>
+                <label class="form-feedback" *ngIf="invalid!='' ">{{invalid}}</label>
                 <label class="form-feedback" *ngIf="max!='' ">*Maximum&nbsp;{{20}}</label>
             </div>
         </div>

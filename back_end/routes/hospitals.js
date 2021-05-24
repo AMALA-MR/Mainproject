@@ -135,27 +135,27 @@ router.post('/add/schedule',(req,res,next)=>{
     });
     Schedule.findOne({vaccine:vaccine, hospital:hospital,date:date,slot:slot},(err,schedules)=>{
         if(schedules){
-            res.json({success: false, msg:'Record already found'})
+            res.json({success: false, msg:'* Record already found'})
         }else{
             Stock.checkHospital(vaccine,hospital,(err,stock)=>{
                 if(!stock){
-                    res.json({success: false, msg:'Record not found'})
+                    res.json({success: false, msg:'* Record not found'})
                 }else{
                     const temp=stock.temp_stock
                     if (parseInt(temp)<parseInt(allocated_amount))
                     {
-                        res.json({success: false, stock:temp})
+                        res.json({success: false, msg:'* Only '+temp+' stock is avaliable'})
                     }else{
                         let temp_stock = parseInt(temp) - parseInt(allocated_amount)
                         Stock.findOneAndUpdate({hospital:hospital,vaccine:vaccine},{temp_stock:temp_stock},(error,newstock)=>{
                             if (error){
-                                return res.json({success:false ,msg:'Data not found'})   
+                                return res.json({success:false ,msg:'* Data not found'})   
                             }else{
                                 Schedule.addSchedule(newSchedule,(err,data) =>{
                                     if(err){
-                                        res.json({success: false, msg:'Failed adding new schedule'})
+                                        res.json({success: false, msg:'* Failed adding new schedule'})
                                     }else{
-                                        return res.json(data).status(200)
+                                        return res.json({success: true, data}).status(200)
                                     }
                                 })
                             }

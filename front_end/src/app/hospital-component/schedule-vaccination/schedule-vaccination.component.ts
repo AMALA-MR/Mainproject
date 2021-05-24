@@ -35,6 +35,7 @@ export class ScheduleVaccinationComponent implements OnInit {
 
     this.authService.getStockVaccine(hospital.id).subscribe(res=>{
       this.vcn=res
+      console.log(res)
      },(error)=>{
        console.log(error)
     });
@@ -85,18 +86,13 @@ export class ScheduleVaccinationComponent implements OnInit {
       return false
     }else {
       this.authService.scheduleSlot(JSON.stringify(values)).subscribe(res =>{
-        console.log(res)
         if(!res.success){
-          this.invalid=res.stock
-          //console.log(this.invalid)
-        }else if(res!=undefined){
-          this.router.navigateByUrl('schedule/vaccination')
-          this.scheduleForm.reset()
-          this.ngOnInit();
-        } else{
           this.invalid=res.msg
-          //console.log(res.msg)
-          //this.router.navigateByUrl('/login')
+        }else{
+          //this.router.navigateByUrl('schedule/vaccination')
+          this.scheduleForm.reset()
+          this.submitted = false;
+          this.ngOnInit();
         }
       },(error)=> {
         console.log(error)
