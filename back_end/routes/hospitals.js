@@ -8,6 +8,7 @@ const Hospital = require('../model/hospital');
 const User = require('../model/user')
 const Schedule = require('../model/schedule')
 const Stock =require('../model/stock')
+const Booking = require('../model/booking')
 
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
@@ -135,27 +136,27 @@ router.post('/add/schedule',(req,res,next)=>{
     });
     Schedule.findOne({vaccine:vaccine, hospital:hospital,date:date,slot:slot},(err,schedules)=>{
         if(schedules){
-            res.json({success: false, msg:'Record already found'})
+            res.json({success: false, msg:'* Record already found'})
         }else{
             Stock.checkHospital(vaccine,hospital,(err,stock)=>{
                 if(!stock){
-                    res.json({success: false, msg:'Record not found'})
+                    res.json({success: false, msg:'* Record not found'})
                 }else{
                     const temp=stock.temp_stock
                     if (parseInt(temp)<parseInt(allocated_amount))
                     {
-                        res.json({success: false, stock:temp})
+                        res.json({success: false, msg:'* Only '+temp+' stock is avaliable'})
                     }else{
                         let temp_stock = parseInt(temp) - parseInt(allocated_amount)
                         Stock.findOneAndUpdate({hospital:hospital,vaccine:vaccine},{temp_stock:temp_stock},(error,newstock)=>{
                             if (error){
-                                return res.json({success:false ,msg:'Data not found'})   
+                                return res.json({success:false ,msg:'* Data not found'})   
                             }else{
                                 Schedule.addSchedule(newSchedule,(err,data) =>{
                                     if(err){
-                                        res.json({success: false, msg:'Failed adding new schedule'})
+                                        res.json({success: false, msg:'* Failed adding new schedule'})
                                     }else{
-                                        return res.json(data).status(200)
+                                        return res.json({success: true, data}).status(200)
                                     }
                                 })
                             }
@@ -172,12 +173,25 @@ router.post('/add/schedule',(req,res,next)=>{
 // @desc view schedule vaccinations
 // @route get /hospital/view/schedule/:id
 router.get('/view/schedule/:id',(req,res,next)=>{
+    console.log(req.params)
     Schedule.viewSchedule(req.params.id,(err, schedules) => {
         if (err) throw err;
         if (!schedules) {
             return res.json({ success: false, msg: 'No Schedules Found' })
         } else {
             return res.status(200).json(schedules)
+        }
+    })
+})
+//view/bookings/608d7b7a1e4320434825b4dd
+// @desc view booking for a particular date
+// @route get /hospital/view/bookings/:id {id is the hospital id}
+router.get('/view/bookings/:id',(req,res,next)=>{
+    Schedule.find({hospital:req.params.id},(err,schedules)=>{
+        if(!schedules){
+            return res.json({ success: false, msg: 'No Schedules Found' })
+        }else{
+            return res.json( schedules )
         }
     })
 })
