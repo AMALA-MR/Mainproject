@@ -60,6 +60,12 @@ export class AuthService {
     let url = `${this.adminUri}/approve/${id}`
     return this.http.put(url, confirm, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
+
+//approve doctor
+approvedoctor(id, confirm): Observable<any> {
+  let url = `${this.hospitalUri}/approve/${id}`
+  return this.http.put(url, confirm, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+}
   //get requested doctors list
   getdoctorsrequest(id): Observable<any> {
     let url = `${this.hospitalUri}/approve/${id}`

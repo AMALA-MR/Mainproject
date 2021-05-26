@@ -76,6 +76,7 @@ router.all('/authenticate', (req, res, next) => {
     const phone_no =req.body.username;
     const password = req.body.password;
     const name =req.body.username;
+    const adhar_no = req.body.adhar_no;
     User.getUserByPhone(phone_no, (err, user)=> {
         if(err) throw err;
         if(!user){
@@ -125,7 +126,8 @@ router.all('/authenticate', (req, res, next) => {
                             id: user._id,
                             name: user.name,
                             phone_no: user.phone_no,
-                            login_type: user.login_type
+                            login_type: user.login_type,
+                            adhar_no : user.adhar_no
                         }
                     });
                 }else{
@@ -181,5 +183,4 @@ router.get('/stock/:id', function(req, res, next) {
         }
     })
 })
-
 module.exports = router;

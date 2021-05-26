@@ -2,34 +2,33 @@
 
 <div class="container">
     <div class="card"><br>
-        <h4>Hospital Requests</h4>
+        <h4>Doctors Requests</h4>
 
         <p>Here are new requests</p>
         <div class="center" >
             <div class="center"><h5 style="color: red;">Nothing pending........!</h5> </div>
         </div>
-        <!-- <table class="table-striped" >
+        <table class="table-striped" *ngIf="doctors!=''">
             <thead>
                 <tr>
                     <th>Sl.no</th>
-                    <th>Hospital Name</th>
-                    <th>Address</th>
-                    <th>Category</th>
+                    <th>Doctor Name</th>
+                    <th>specialization</th>
                     <th></th>
                 </tr>
             </thead>
-            <!-- <tbody >
-                <tr *ngFor="let val of hospital; let i=index">
+             <tbody >
+                <tr *ngFor="let val of doctors; let i=index">
                     <td> {{i+1}} </td>
                     <td> {{val.name}} </td>
-                    <td> {{val.city}},<br>{{val.district}},<br>{{val.state}},<br>pin:{{val.pincode}} </td>
-                    <td> {{val.type}} </td>
+                    <!-- <td> {{val.city}},<br>{{val.district}},<br>{{val.state}},<br>pin:{{val.pincode}} </td> -->
+                    <td> {{val.specialization}} </td>
                     <td>
                         <a class="btn btn-primary" (click)="onApprove(val._id)">Accept</a>
                         <a class="btn btn-warning" (click)="onReject(val._id)">Reject</a>
                     </td>
                 </tr>
-            </tbody> -->
-        <!-- </table> --> 
+            </tbody>
+        </table> 
     </div>
 </div>

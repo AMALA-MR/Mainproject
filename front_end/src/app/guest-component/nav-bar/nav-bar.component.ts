@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CoronaService } from '../../shared/corona.service';
 import { Subscription, BehaviorSubject, interval } from 'rxjs';
 
+import { AuthService } from '../../Services/auth.service';
+import { Router } from "@angular/router";
+
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -16,7 +19,10 @@ storebannerSubject: BehaviorSubject<any> = new BehaviorSubject("");
 count
 subscription: Subscription;
 intervalId: number;
-constructor(private cs: CoronaService) { }
+constructor(private cs: CoronaService,
+  public authService: AuthService,
+    private router: Router
+  ) { }
 
 
 ngOnInit(): void {
@@ -48,4 +54,13 @@ opensnack(data) {
     this.BannerData = data;
   });
 }
+
+onVaccineClick(){
+  if(window.confirm('Are you Registered User?')){
+    this.router.navigateByUrl('/login')
+  }else{
+    this.router.navigateByUrl('/user_register')
+  }
+}
+
 }

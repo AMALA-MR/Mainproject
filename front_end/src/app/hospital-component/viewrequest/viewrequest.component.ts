@@ -24,4 +24,32 @@ export class ViewrequestComponent implements OnInit {
     });
   }
 
+
+  onApprove(id){
+    const data={
+      confirm:'1'
+    }
+    if(window.confirm('Are you sure to approve?')){
+      this.authService.approvedoctor(id,JSON.stringify(data)).subscribe(res=>{
+        console.log(res)
+        this.ngOnInit()
+      },(error)=>{
+        console.log(error)
+      })
+    }
+  }
+  
+  onReject(id){
+    const data={
+      confirm:'-1'
+    }
+    if(window.confirm('Are you sure to reject?')){
+      this.authService.approvedoctor(id,JSON.stringify(data)).subscribe(res=>{
+        console.log('Rejected')
+        this.ngOnInit()
+      },(error)=>{
+        console.log(error)
+      })
+    }
+  }
 }
