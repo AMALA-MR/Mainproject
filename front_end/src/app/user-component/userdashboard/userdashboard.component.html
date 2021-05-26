@@ -5,7 +5,7 @@
 
     <div class="card">
       <div class="card-header">
-        Featured
+        Account Details
       </div>
       <div class="card-body">
         <h5 class="card-title">{{user.name}}</h5>
@@ -14,9 +14,13 @@
           <br>
           Adhar_N0 : {{user.adhar_no}}
           <br>
-          ID_No : {{user.id}}
+         Secret code: {{user.secret_code}}
+         <br>
+         Date Of Birth :{{user.age}}
         </p>
-        <a href="#" class="btn btn-primary">Schedule vaccine</a>
+        <h2>Dose 1</h2>
+        <p>Appointment is not scheduled</p>
+        <a class="btn btn-primary" (click)='onbooking()'>Schedule First Dose</a>
       </div>
     </div>
     <h3 style="text-align: center;">Our Doctor Ready To Serve You............</h3>

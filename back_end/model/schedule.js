@@ -55,7 +55,9 @@ module.exports.findSchedule = function(pin,callback){
         },
         {
             $match: {
-                "hospit.pincode":pin
+                $or: [{"hospit.pincode":pin}, 
+                    {"hospit.district":pin }]
+                //"hospit.pincode":pin
             }
         }
     ],callback)

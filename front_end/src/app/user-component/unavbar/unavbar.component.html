@@ -37,12 +37,9 @@
             <a routerLink="/user_register" routerLinkActive="active">
                 <span class="fadeInUp " style="animation-delay: 0.5s;">Sign-up</span>
             </a>  -->
-            <a *ngIf="!authService.loggedIn();" (click)='onLogoutClick()'>
-                <span class="fadeInUp " style="animation-delay: 0.5s;">Logout</span>
-            </a> 
-            <a routerLink="/book/vaccination" routerLinkActive="active">
+            <!-- <a routerLink="/book/vaccination" routerLinkActive="active">
                 <span class="fadeInUp " style="animation-delay: 0.5s;">Profile</span>
-            </a> 
+            </a>  -->
             <a *ngIf="!authService.loggedIn();" (click)='onLogoutClick()'>
                 <span class="fadeInUp " style="animation-delay: 0.5s;">Logout</span>
             </a>  

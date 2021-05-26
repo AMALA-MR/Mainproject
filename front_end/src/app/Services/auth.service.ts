@@ -95,6 +95,12 @@ approvedoctor(id, confirm): Observable<any> {
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 
+  // get schedules in a particular hospital
+  getBookSchedule(key): Observable<any> {
+    let url = `${this.userUri}/view/schedule/${key}`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+
   //add vaccine details
   addVaccine(vaccine): Observable<any> {
     let url = `${this.adminUri}/add/vaccine`

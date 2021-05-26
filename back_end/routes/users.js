@@ -5,12 +5,18 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/db');
 const bcrypt = require('bcryptjs');
 const validator = require('aadhaar-validator')
+const random =require('random-number');
 const User = require('../model/user');
 const Hospital = require('../model/hospital')
 const Vaccine = require('../model/vaccine')
 const Booking = require('../model/booking')
 const Stock = require('../model/stock')
 const Schedule = require('../model/schedule')
+var gen = random.generator({
+    min:  1000,
+    max:  9999, 
+    integer: true
+  })
 
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
@@ -34,7 +40,8 @@ router.all('/register', function(req, res, next) {
             adhar_no: req.body.adhar_no,
             phone_no: req.body.phone_no,
             password: req.body.password,
-            login_type: req.body.login_type
+            login_type: req.body.login_type,
+            secret_code:gen()
         });
 
         User.getUserByAdhar(adhar_no, (err, user)=> {
@@ -77,7 +84,6 @@ router.all('/authenticate', (req, res, next) => {
     const phone_no =req.body.username;
     const password = req.body.password;
     const name =req.body.username;
-    const adhar_no = req.body.adhar_no;
     User.getUserByPhone(phone_no, (err, user)=> {
         if(err) throw err;
         if(!user){
@@ -127,8 +133,10 @@ router.all('/authenticate', (req, res, next) => {
                             id: user._id,
                             name: user.name,
                             phone_no: user.phone_no,
+                            age: user.age,
                             login_type: user.login_type,
-                            adhar_no : user.adhar_no
+                            adhar_no : user.adhar_no,
+                            secret_code:user.secret_code
                         }
                     });
                 }else{
@@ -186,17 +194,6 @@ router.post('/bookings', function(req, res, next) {
 //})
 
 router.get('/view/schedule/:id',(req,res,next)=>{
-    //Schedule.aggregate([{
-        
-        
-      //  $lookup:{
-        //    from: "hospitals",
-          //  localField: "hospital",
-           // foreignField: "_id",
-            //as:"hospitalsss",
-       // }
-    //}],(err,hospitl)=>{
-        //console.log(hospitl)
         Schedule.findSchedule(req.params.id,(err,hospitl)=>{
         if(hospitl==''){
             return res.json({success: false, msg:'No schedules'})

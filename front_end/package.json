@@ -27,6 +27,7 @@
     "jquery": "^3.4.1",
     "moment": "^2.29.1",
     "ng2-search-filter": "^0.5.1",
+    "random-int": "^3.0.0",
     "rxjs": "^6.6.7",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

@@ -1,0 +1,32 @@
+ .card{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    text-align: center;
+  } 
+
+  /* *{
+    margin: 0;
+    padding: 20px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  } */
+  h1{
+    font-size: 2.5rem;
+    font-family: 'Montserrat';
+    font-weight: normal;
+    color: #444;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  
+  .wrapper{
+    width: 90%;
+    margin: 0 auto;
+    max-width: 80rem;
+  }
+
+  .btn {
+    float:left;
+    margin-right:5px;
+ }
