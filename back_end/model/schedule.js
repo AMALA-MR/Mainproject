@@ -41,22 +41,22 @@ module.exports.viewSchedule = function(hid,callback){
 }
 
 module.exports.findSchedule = function(pin,callback){
-    Schedule.aggregate([[
+    Schedule.aggregate([
         {
-            "$lookup": {
-                "form": "hospital",
-                "localField": "hospital",
-                "foreignField": "_id",
-                "as" : "schedules"
+            $lookup: {
+                from: "hospitals",
+                localField: "hospital",
+                foreignField: "_id",
+                as : "hospit"
             }
         },
         {
-            "$unwind": "$schedules"
+            $unwind: "$hospit"
         },
         {
-            "$match": {
-                "schedule.pincode":pin
+            $match: {
+                "hospit.pincode":pin
             }
         }
-    ]])
+    ],callback)
 }

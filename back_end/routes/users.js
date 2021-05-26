@@ -186,19 +186,18 @@ router.post('/bookings', function(req, res, next) {
 //})
 
 router.get('/view/schedule/:id',(req,res,next)=>{
-    Schedule.aggregate([{
-        $unwind:"$hospitals"
-
-        },
-        {
-        $lookup:{
-            from: "hospital",
-            localField: "hospital",
-            foreignField: "_id",
-            as:"hospitalsss",
-        }
-    }],(err,hospitl)=>{
+    //Schedule.aggregate([{
+        
+        
+      //  $lookup:{
+        //    from: "hospitals",
+          //  localField: "hospital",
+           // foreignField: "_id",
+            //as:"hospitalsss",
+       // }
+    //}],(err,hospitl)=>{
         //console.log(hospitl)
+        Schedule.findSchedule(req.params.id,(err,hospitl)=>{
         if(hospitl==''){
             return res.json({success: false, msg:'No schedules'})
         }else{
