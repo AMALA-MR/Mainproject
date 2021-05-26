@@ -10,6 +10,7 @@ const Hospital = require('../model/hospital')
 const Vaccine = require('../model/vaccine')
 const Booking = require('../model/booking')
 const Stock = require('../model/stock')
+const Schedule = require('../model/schedule')
 
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
@@ -82,7 +83,7 @@ router.all('/authenticate', (req, res, next) => {
             Hospital.getUserByName(name, (err, hospital)=> {
                 if(err) throw err;
                 if(!hospital){
-                    return res.json({success: false, msg: 'Hospital not found'});
+                    return res.json({success: false, msg: 'Account not found'});
                 }
                 User.comparePassword(password, hospital.password, (err, isMatch) => {
                     if(err) throw err;
@@ -156,19 +157,53 @@ router.get('/vaccine/list', (req, res, next) => {
 router.post('/bookings', function(req, res, next) {
     let newBook = new Booking({
         user: req.body.user,
-        schedule: req.body.schedule
+        schedule: req.body.schedule,
+        status:'book'
     });
 
-    Booking.addSlot(newBook, (err, user) =>{
+    Booking.addBook(newBook, (err, user) =>{
         if(err){
             console.log(err)
-            res.json({success: false, msg:'Failed to booking'});   
+            return res.json({success: false, msg:'Failed to booking'});   
         }else {
-            res.json({success: true, msg:'Booking suceess'}); 
+            return res.json({success: true, msg:'Booking suceess'}); 
         }
     });
 });
 
+// @desc view schedules for a users using pincode or district
+// @route get /users/view/schedule/:id {id is pincode or district}
+//router.get('/view/schedule/:id',(req,res,next)=>{
+  //  Hospital.find({$or: [{pincode:req.params.id}, {district:req.params.id }]},(err,hospitl)=>{
+   //     if(hospitl==''){
+     //       return res.json({success: false, msg:'No schedules'})
+       // }else{
+         //   return res.json(hospitl.name)
+        //}
+    //})
+//})
+
+router.get('/view/schedule/:id',(req,res,next)=>{
+    Schedule.aggregate([{
+        $unwind:"$hospitals"
+
+        },
+        {
+        $lookup:{
+            from: "hospital",
+            localField: "hospital",
+            foreignField: "_id",
+            as:"hospitalsss",
+        }
+    }],(err,hospitl)=>{
+        //console.log(hospitl)
+        if(hospitl==''){
+            return res.json({success: false, msg:'No schedules'})
+        }else{
+            return res.json(hospitl)
+        }
+    
+})})
 
 // @desc book vaccination date and slot
 // @route get /users/stock/:id

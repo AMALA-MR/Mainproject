@@ -39,3 +39,24 @@ module.exports.viewSchedule = function(hid,callback){
     const query = {hospital:hid}
     Schedule.find(query,callback).populate('hospital').populate('vaccine')
 }
+
+module.exports.findSchedule = function(pin,callback){
+    Schedule.aggregate([[
+        {
+            "$lookup": {
+                "form": "hospital",
+                "localField": "hospital",
+                "foreignField": "_id",
+                "as" : "schedules"
+            }
+        },
+        {
+            "$unwind": "$schedules"
+        },
+        {
+            "$match": {
+                "schedule.pincode":pin
+            }
+        }
+    ]])
+}

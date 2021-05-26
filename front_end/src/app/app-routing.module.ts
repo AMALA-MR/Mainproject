@@ -16,6 +16,7 @@ import { AddStockComponent } from './admin-component/add-stock/add-stock.compone
 import { AddVaccineComponent } from './admin-component/add-vaccine/add-vaccine.component';
 import { ViewRequestComponent } from './admin-component/view-request/view-request.component';
 import { ScheduleVaccinationComponent } from './hospital-component/schedule-vaccination/schedule-vaccination.component';
+import { BookVaccinationComponent } from './user-component/book-vaccination/book-vaccination.component';
 
 import { from } from 'rxjs';
 import { AuthGuard } from './services/auth.guard';
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'add/vaccine', component: AddVaccineComponent,canActivate:[AuthGuard]},
   { path: 'view/requests', component: ViewRequestComponent,canActivate:[AuthGuard]},
   { path: 'schedule/vaccination', component: ScheduleVaccinationComponent,canActivate:[AuthGuard]},
+  { path: 'book/vaccination', component: BookVaccinationComponent,canActivate:[AuthGuard]},
 ];
 
 @NgModule({
