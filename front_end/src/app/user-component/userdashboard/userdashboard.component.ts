@@ -9,6 +9,8 @@ import * as moment from 'moment'
 })
 export class UserdashboardComponent implements OnInit {
   user: any = [];
+  btn: any =[];
+  isDisabled = false;
   searchDate:string;
   birthyear:String;
   constructor(
@@ -17,11 +19,29 @@ export class UserdashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    
     this.user = JSON.parse(localStorage.getItem('user'))
+    this.authService.getbookdetails(this.user.id).subscribe(res => {
+      if(res==''){
+        this.btn =[{"status":"Schedule vaccine"}];
+        //console.log(this.btn)
+      }else{
+        this.btn = res
+        this.isDisabled=true;
+      }
+      
+    }, (error) => {
+      console.log(error)
+    });
   }
+  
   onbooking(){
-    this.router.navigateByUrl('/book/vaccination')
+    if(window.confirm('Are you not vaccinated yet?')){
+      this.router.navigateByUrl('/book/vaccination')
+    }
+    else{
+      this.router.navigateByUrl('/userdashboard')
+    }
   }
 
 }

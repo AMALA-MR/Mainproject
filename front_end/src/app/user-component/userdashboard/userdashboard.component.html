@@ -20,7 +20,7 @@
         </p>
         <h2>Dose 1</h2>
         <p>Appointment is not scheduled</p>
-        <a class="btn btn-primary" (click)='onbooking()'>Schedule First Dose</a>
+        <button class="btn btn-primary" (click)='onbooking()' *ngFor="let val of btn; let i=index" [disabled]="isDisabled">{{btn[i].status}}</button>
       </div>
     </div>
     <h3 style="text-align: center;">Our Doctor Ready To Serve You............</h3>

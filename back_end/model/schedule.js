@@ -62,3 +62,8 @@ module.exports.findSchedule = function(pin,callback){
         }
     ],callback)
 }
+
+module.exports.findScheduleVaccine = function(val,callback){
+    const query = {_id:val}
+    Schedule.find(query,callback).populate('vaccine')
+}

@@ -112,9 +112,20 @@ approvedoctor(id, confirm): Observable<any> {
     return this.http.post(url, stock, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 
+  // add new vaccine slot booking  
+  addVaccineBooking(data): Observable<any> {
+    let url = `${this.userUri}/bookings`
+    return this.http.post(url, data, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
   // get main stock details to admin
   showStock(): Observable<any> {
     let url = `${this.adminUri}/get/vaccine/stock`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+
+   // get booking info from booking table
+   getbookdetails(id): Observable<any> {
+    let url = `${this.userUri}/book/list/${id}`
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 

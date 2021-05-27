@@ -168,7 +168,7 @@ router.post('/bookings', function(req, res, next) {
     let newBook = new Booking({
         user: req.body.user,
         schedule: req.body.schedule,
-        status:'book'
+        status:'booked'
     });
 
     Booking.addBook(newBook, (err, user) =>{
@@ -180,6 +180,18 @@ router.post('/bookings', function(req, res, next) {
         }
     });
 });
+
+
+//@desc get booked list
+router.get('/book/list/:id', (req, res, next) => {
+    Booking.findBooking(req.params.id,(err, userbooking)=>{
+        if(userbooking){
+            return res.json(userbooking)
+        }else{
+            return res.find({success:false, msg:"Booking not found!"})
+        }
+    })
+})
 
 // @desc view schedules for a users using pincode or district
 // @route get /users/view/schedule/:id {id is pincode or district}
