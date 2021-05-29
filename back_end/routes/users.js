@@ -155,6 +155,7 @@ router.get('/vaccine/list', (req, res, next) => {
 // @desc book vaccination date and slot
 // @route post /users/bookings
 router.post('/bookings', function(req, res, next) {
+    const schedule_id=req.body.schedule;
     let newBook = new Booking({
         user: req.body.user,
         schedule: req.body.schedule,
@@ -166,7 +167,26 @@ router.post('/bookings', function(req, res, next) {
             console.log(err)
             return res.json({success: false, msg:'Failed to booking'});   
         }else {
-            return res.json({success: true, msg:'Booking suceess'}); 
+            Schedule.findOne(schedule_id,(err,sh)=>{
+                if(!sh){
+                    res.json({success: false, msg:'* Schedule not found'})
+                }else{
+                    const temp=sh.allocated_amount
+                    if(temp=='0'){
+                        res.json({success: false, msg:'* Slot full'})
+                    }else{
+                        let temp_stock = parseInt(temp) - 1
+                        Schedule.findByIdAndUpdate(schedule_id,{allocated_amount:temp_stock},(err,newamount)=>{
+                            if (err){
+                                return res.json({success:false ,msg:'* Something happened'})   
+                            }else{
+                                return res.json({success: true, msg:'Booking suceess'}); 
+                            }
+                        })
+                    }
+                }
+            })
+            //return res.json({success: true, msg:'Booking suceess'}); 
         }
     });
 });
