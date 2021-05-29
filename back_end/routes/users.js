@@ -177,7 +177,7 @@ router.post('/bookings', function(req, res, next) {
             console.log(err)
             return res.json({success: false, msg:'Failed to booking'});   
         }else {
-            Schedule.findOne(schedule_id,(err,sh)=>{
+            Schedule.findById(schedule_id,(err,sh)=>{
                 if(!sh){
                     res.json({success: false, msg:'* Schedule not found'})
                 }else{
