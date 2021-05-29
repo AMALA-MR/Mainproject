@@ -5,12 +5,18 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/db');
 const bcrypt = require('bcryptjs');
 const validator = require('aadhaar-validator')
+const random =require('random-number');
 const User = require('../model/user');
 const Hospital = require('../model/hospital')
 const Vaccine = require('../model/vaccine')
 const Booking = require('../model/booking')
 const Stock = require('../model/stock')
 const Schedule = require('../model/schedule')
+var gen = random.generator({
+    min:  1000,
+    max:  9999, 
+    integer: true
+  })
 
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
@@ -34,7 +40,8 @@ router.all('/register', function(req, res, next) {
             adhar_no: req.body.adhar_no,
             phone_no: req.body.phone_no,
             password: req.body.password,
-            login_type: req.body.login_type
+            login_type: req.body.login_type,
+            secret_code:gen()
         });
 
         User.getUserByAdhar(adhar_no, (err, user)=> {
@@ -126,7 +133,10 @@ router.all('/authenticate', (req, res, next) => {
                             id: user._id,
                             name: user.name,
                             phone_no: user.phone_no,
-                            login_type: user.login_type
+                            age: user.age,
+                            login_type: user.login_type,
+                            adhar_no : user.adhar_no,
+                            secret_code:user.secret_code
                         }
                     });
                 }else{
@@ -159,7 +169,7 @@ router.post('/bookings', function(req, res, next) {
     let newBook = new Booking({
         user: req.body.user,
         schedule: req.body.schedule,
-        status:'book'
+        status:'booked'
     });
 
     Booking.addBook(newBook, (err, user) =>{
@@ -191,6 +201,18 @@ router.post('/bookings', function(req, res, next) {
     });
 });
 
+
+//@desc get booked list
+router.get('/book/list/:id', (req, res, next) => {
+    Booking.findBooking(req.params.id,(err, userbooking)=>{
+        if(userbooking){
+            return res.json(userbooking)
+        }else{
+            return res.find({success:false, msg:"Booking not found!"})
+        }
+    })
+})
+
 // @desc view schedules for a users using pincode or district
 // @route get /users/view/schedule/:id {id is pincode or district}
 //router.get('/view/schedule/:id',(req,res,next)=>{
@@ -204,17 +226,6 @@ router.post('/bookings', function(req, res, next) {
 //})
 
 router.get('/view/schedule/:id',(req,res,next)=>{
-    //Schedule.aggregate([{
-        
-        
-      //  $lookup:{
-        //    from: "hospitals",
-          //  localField: "hospital",
-           // foreignField: "_id",
-            //as:"hospitalsss",
-       // }
-    //}],(err,hospitl)=>{
-        //console.log(hospitl)
         Schedule.findSchedule(req.params.id,(err,hospitl)=>{
         if(hospitl==''){
             return res.json({success: false, msg:'No schedules'})
@@ -235,5 +246,4 @@ router.get('/stock/:id', function(req, res, next) {
         }
     })
 })
-
 module.exports = router;

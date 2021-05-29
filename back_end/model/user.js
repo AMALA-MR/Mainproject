@@ -46,6 +46,9 @@ const UserSchema = mongoose.Schema({
         default: 'user',
         enum: ['user','doctor','admin'],
     },
+    secret_code: {
+        type: String
+    },
     created_at: {
         type: Date,
         default: Date.now,

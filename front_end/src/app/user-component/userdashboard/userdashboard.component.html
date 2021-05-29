@@ -1,2 +1,84 @@
 <app-unavbar></app-unavbar>
-<p>userdashboard works!</p>
+<div class="wrapper">
+    <h1>Welcome {{user.name}}</h1>
+
+
+    <div class="card">
+      <div class="card-header">
+        Account Details
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{user.name}}</h5>
+        <p class="card-text">
+          Phone_No : {{user.phone_no}}
+          <br>
+          Adhar_N0 : {{user.adhar_no}}
+          <br>
+         Secret code: {{user.secret_code}}
+         <br>
+         Date Of Birth :{{user.age}}
+        </p>
+        <h2>Dose 1</h2>
+        <p>Appointment is not scheduled</p>
+        <button class="btn btn-primary" (click)='onbooking()' *ngFor="let val of btn; let i=index" [disabled]="isDisabled">{{btn[i].status}}</button>
+      </div>
+    </div>
+    <h3 style="text-align: center;">Our Doctor Ready To Serve You............</h3>
+    <div class="cols">
+        <div class="col" ontouchstart="this.classList.toggle('hover');">
+          <div class="container">
+            <div class="front" style="background-image: url(https://unsplash.it/500/500/)">
+              <div class="inner">
+                <p>Diligord</p>
+                <span>Lorem ipsum</span>
+              </div>
+            </div>
+            <div class="back">
+              <div class="inner">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col" ontouchstart="this.classList.toggle('hover');">
+          <div class="container">
+            <div class="front" style="background-image: url(https://unsplash.it/511/511/)">
+              <div class="inner">
+                <p>Rocogged</p>
+                <span>Lorem ipsum</span>
+              </div>
+            </div>
+            <div class="back">
+              <div class="inner">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col" ontouchstart="this.classList.toggle('hover');">
+          <div class="container">
+            <div class="front" style="background-image: url(https://unsplash.it/502/502/)">
+              <div class="inner">
+                <p>Strizzes</p>
+                <span>Lorem ipsum</span>
+              </div>
+            </div>
+            <div class="back">
+              <div class="inner">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+   </div>
+   
+
+
+
+
+  
+  
+  

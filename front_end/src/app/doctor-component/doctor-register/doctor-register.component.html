@@ -23,6 +23,8 @@
                        <option value="">---select---</option>
                        <option *ngFor="let val of list" value="{{val._id}}">{{val.name}}</option>
                    </select>
+                   <input type="text" class="form-control" placeholder="Specialization" formControlName="specialization" >
+
                     <!-- <label for="name">PASSWORD</label>  -->
                     <input type="password" class="form-control" placeholder="password" formControlName="password">
                     <button class="form_button button submit">Submit</button>

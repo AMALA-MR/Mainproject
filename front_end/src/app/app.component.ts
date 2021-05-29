@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
   intervalId: number;
   constructor(private cs: CoronaService) { }
 
-  
   ngOnInit(): void {
     this.cs.getBanners().subscribe(data => {
       this.BannerDataList = data.factoids.map(item => {

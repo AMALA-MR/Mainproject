@@ -43,7 +43,9 @@ export class DoctorRegisterComponent implements OnInit {
       adhar_no: ['', [Validators.required]],
       phone_no: ['', [Validators.required]],
       hospital: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
+      password:['',[Validators.required]],
+      specialization:['',[Validators.required]]
+      // password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
     })
   }
   get myForm() {
@@ -55,14 +57,23 @@ export class DoctorRegisterComponent implements OnInit {
     if(!this.userForm.valid){
       return false;
     }else{
-        this.authService.registerUser(JSON.stringify(this.userForm.value)).subscribe(res=>{
-          if(res.success){
+      const value= this.userForm.value
+      const values={
+        name:value.name,
+        age:value.age,
+        gender:value.gender,
+        adhar_no:value.adhar_no,
+        phone_no:value.phone_no,
+        hospital:value.hospital,
+        password:value.password,
+        login_type:'doctor',
+        specialization:value.specialization
+      } 
+      console.log(values)
+        this.authService.registerDoctor(JSON.stringify(values)).subscribe(res=>{
+         if(res.success){
             console.log(res.msg);
-            //if(res.user.type=='doctor')
-            this.router.navigateByUrl('/home')
-          }else{
-            console.log(res.msg);
-            this.router.navigateByUrl('/doctor_register')
+              this.router.navigateByUrl('/home')
           }
         },(error)=>{
           console.log(error)

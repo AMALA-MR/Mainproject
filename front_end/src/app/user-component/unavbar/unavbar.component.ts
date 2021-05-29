@@ -18,11 +18,11 @@ export class UnavbarComponent implements OnInit {
   count
   subscription: Subscription;
   intervalId: number;
-  constructor(
-    private cs: CoronaService,
-    public authService: AuthService,
-    private router: Router,) { }
 
+  constructor(private cs: CoronaService,
+    public authService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.cs.getBanners().subscribe(data => {

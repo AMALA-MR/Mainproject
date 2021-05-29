@@ -1,2 +1,71 @@
 <app-unavbar></app-unavbar>
-<p>book-vaccination works!</p>
+<form [formGroup]="bookForm" class="container">
+    <div class="wrapper">
+        <h1>Welcome..............</h1>
+        <div class="card">
+            <div class="card-header">
+                Schedule Vaccine
+            </div>
+            <div class="card-body">
+                <h4>Find Vaccination Center</h4>
+                <div class="form-group">
+                    <label for="Username">Pincode</label><br>
+                    <input type="text" name="pincode" formControlName="pincode" (blur)='searchbypincode()'>
+                </div>
+                <br>
+                <select formControlName="state" class="form-control">
+                    <option value="Kerala">Kerala</option>
+                </select><br>
+                <!-- <input type="text" class="form-control" placeholder="district" formControlName="district"> -->
+
+                <select formControlName="district" class="form-control" (change)='searchbdistrict()'>
+                    <option value="">Select District</option>
+                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                    <option value="Kollam">Kollam</option>
+                    <option value="Alappuzha">Alappuzha</option>
+                    <option value="Pathanamthitta">Pathanamthitta</option>
+                    <option value="Kottaam">Kottaam</option>
+                    <option value="Idukki">Idukki</option>
+                    <option value="Ernakulam">Ernakulam</option>
+                    <option value="Thrissur">Thrissur</option>
+                    <option value="Palakkad">Palakkad</option>
+                    <option value="Malappuram">Malappuram</option>
+                    <option value="Kozhikod">Kozhikod</option>
+                    <option value="Waanad">Waanad</option>
+                    <option value="Kannur">Kannur</option>
+                    <option value="Kasargod">Kasargod</option>
+                </select>
+                <br>
+
+
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sl.no</th>
+                            <th>Hospital</th>
+                            <th>Vaccine</th>
+                            <th>Time-Slot</th>
+                            <th>Date</th>
+                            <th>Availlabe Vaccine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let val of data; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{val.hospit.name}}</td>
+                            <!-- <td> {{val.city}},<br>{{val.district}},<br>{{val.state}},<br>pin:{{val.pincode}} </td> -->
+                            <td>{{val.vaccine}}</td>
+                            <td>{{val.slot}}</td>
+                            <td>{{val.date| date:'dd-mm-yyyy'}}</td>
+                            <th>{{val.allocated_amount}}</th>
+                            <td>
+                                <a class="btn btn-primary" (click)="onBooking(val._id)">Book</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>

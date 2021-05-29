@@ -52,12 +52,13 @@ export class LoginComponent implements OnInit {
       })
     }else {
       this.authService.authenticateUser(JSON.stringify(this.loginForm.value)).subscribe(res =>{
-        //console.log(res.user)
+        console.log(res,"valueeeeeeeeeeeeeeeeeeeeeeeeeeees")
         if(res.success){
           console.log('logined')
           this.authService.storeUserToken(res.token, res.user);
 
           if(res.user.login_type=='user')
+          console.log(res.user)
           this.router.navigateByUrl('/userdashboard')
 
           if(res.user.login_type=='doctor')

@@ -55,8 +55,15 @@ module.exports.findSchedule = function(pin,callback){
         },
         {
             $match: {
-                "hospit.pincode":pin
+                $or: [{"hospit.pincode":pin}, 
+                    {"hospit.district":pin }]
+                //"hospit.pincode":pin
             }
         }
     ],callback)
+}
+
+module.exports.findScheduleVaccine = function(val,callback){
+    const query = {_id:val}
+    Schedule.find(query,callback).populate('vaccine')
 }
