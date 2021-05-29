@@ -8,7 +8,8 @@ const Hospital = require('../model/hospital');
 const User = require('../model/user')
 const Schedule = require('../model/schedule')
 const Stock =require('../model/stock')
-const Booking = require('../model/booking')
+const Booking = require('../model/booking');
+const Vaccination = require('../model/vaccination');
 
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
@@ -183,7 +184,7 @@ router.get('/view/schedule/:id',(req,res,next)=>{
         }
     })
 })
-//view/bookings/608d7b7a1e4320434825b4dd
+
 // @desc view booking for a particular date
 // @route get /hospital/view/bookings/:id {id is the hospital id}
 router.get('/view/bookings/:id',(req,res,next)=>{
@@ -192,6 +193,63 @@ router.get('/view/bookings/:id',(req,res,next)=>{
             return res.json({ success: false, msg: 'No Schedules Found' })
         }else{
             return res.json( schedules )
+        }
+    })
+})
+
+//@desc add vaccination
+//@route post /hospital/vaccanation/confirm/:id
+router.post('/vaccanation/confirm/:id',(req,res,next)=>{
+    const status=req.body.status
+    Booking.findBook(req.params.id,status,(err,booked)=>{
+        if(!booked){
+            return res.json({ success: false, msg: 'No Booking Found' })
+        }else{
+            //return res.json(booked)
+            let newConfirmation = new Vaccination({
+                user: booked.user,
+                vaccine:booked.schedule.vaccine,
+                dose_taken: '1'
+                //status: req.body.slot
+            });
+            Vaccination.findOne({user:booked.user},(err,data)=>{
+                if(!data){
+                    Vaccination.addVaccinationDetails(newConfirmation,(err,data1) =>{
+                        if(err){
+                            res.json({success: false, msg:'* Failed adding new vaccination'})
+                        }else{
+                            const v_id=booked.schedule.vaccine
+                            const h_id=booked.schedule.hospital
+                            //console.log(h_id,v_id)
+                            Stock.findOne({hospital:h_id,vaccine:v_id},(err,uStock)=>{
+                                if(err){
+                                    return res.json({success: false,msg:'* something wrong'})
+                                }else{
+                                    let s_id =uStock._id
+                                    let temp_st=uStock.available_stock - 1
+                                    Stock.findByIdAndUpdate(s_id,{available_stock:temp_st},(err,updateStock)=>{
+                                        if(err){
+                                            return res.json({success: false,msg:'* something wrong'})
+                                        }else{
+                                            Booking.findByIdAndUpdate(booked._id,{status:'taken'},(err,updateBooking)=>{
+                                                if(err){
+                                                    return res.json({success: false,msg:'* something wrong'})
+                                                }else{
+                                                    return res.json({success: true, msg:'Vaccination success'});
+                                                }
+                                            })
+                                        }
+                                    })
+                                    
+                                }
+                            })
+                        }
+                    })
+                    //return res.json(newConfirmation)
+                }else{
+                    return res.json({msg:"first dose taken"})
+                }
+            })
         }
     })
 })

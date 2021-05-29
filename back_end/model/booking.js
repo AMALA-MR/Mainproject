@@ -16,7 +16,7 @@ const BookingSchema = mongoose.Schema({
         type: String,
         required: true,
         default: 'booked',
-        enum:['booked','complete','cancel'],
+        enum:['booked','taken','cancel'],
     },
     created_at: {
         type: Date,
@@ -47,4 +47,9 @@ module.exports.avaliableSlot = function(date,hospital,callback){
 module.exports.findBooking = function(id,callback){
     const query = {user:id}
     Booking.find(query,callback).populate('schedule')
+}
+// find a particular user booking
+module.exports.findBook = function(id,status,callback){
+    const query = {_id:id,status:status}
+    Booking.findOne(query,callback).populate('schedule')
 }

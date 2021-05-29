@@ -30,3 +30,7 @@ const VaccinationSchema = mongoose.Schema({
 });
 
 const Vaccination = module.exports = mongoose.model('Vaccination', VaccinationSchema);
+
+module.exports.addVaccinationDetails =function(newValue,callback){
+    newValue.save(callback)
+}
