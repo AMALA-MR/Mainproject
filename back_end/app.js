@@ -78,6 +78,12 @@ app.get('/',(req,res) => {
 // Port number
 const PORT = process.env.PORT || 3000
 
+//twilio
+TWILIO_ACCOUNT_SID=  process.env.TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN=  process.env.TWILIO_AUTH_TOKEN
+TWILIO_FROM_PHONE=  process.env.TWILIO_FROM_PHONE
+
+
 // Start server
 app.listen(
   PORT,

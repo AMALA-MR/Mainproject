@@ -238,7 +238,18 @@ router.post('/vaccanation/confirm/:id',(req,res,next)=>{
                                                 if(err){
                                                     return res.json({success: false,msg:'* something wrong'})
                                                 }else{
-                                                    return res.json({success: true, msg:'Vaccination success'});
+                                                    Vaccination.findUser(booked.user,(err,userdetail)=>{
+                                                        if(err){
+                                                            return res.json({success: false,msg:'* something wrong'})
+                                                        }else{
+                                                            let datt= new Date()
+                                                            let dtt=datt.getDate(userdetail.first_dose_date)+'/'+(parseInt(datt.getUTCMonth(userdetail.first_dose_date))+parseInt(1))+'/'+datt.getFullYear(userdetail.first_dose_date)
+                                                            let msgg='Dear '+userdetail.user.name+',You have succesfully been vaccinated with your 1 Dose with '+userdetail.vaccine.vaccine_name+ ' on '+dtt+'.'
+                                                            send_message(userdetail.user.phone_no,msgg)
+                                                            return res.json({success: true, msg:'Vaccination success'});
+                                                        }
+                                                    })
+                                                    
                                                 }
                                             })
                                         }
@@ -269,7 +280,17 @@ router.post('/vaccanation/confirm/:id',(req,res,next)=>{
                                                 if(err){
                                                     return res.json({success: false,msg:'* something wrong'})
                                                 }else{
-                                                    return res.json({success: true, msg:'Vaccination success'});
+                                                    Vaccination.findUser(booked.user,(err,userdetail)=>{
+                                                        if(err){
+                                                            return res.json({success: false,msg:'* something wrong'})
+                                                        }else{
+                                                            let msgg='Dear '+userdetail.user.name+',You have succesfully been vaccinated with your 2 Dose with '+userdetail.vaccine.vaccine_name+ ' on '+date+'.'
+                                                            send_message(userdetail.user.phone_no,msgg)
+                                                            let msgg='Dear '+userdetail.user.name+',Congratulations! you have succesfully completed the schedule of all doses of COVID-19 vaccine.'
+                                                            send_message(userdetail.user.phone_no,msgg)
+                                                            return res.json({success: true, msg:'Vaccination success'});
+                                                        }
+                                                    })
                                                 }
                                             })
                                         }

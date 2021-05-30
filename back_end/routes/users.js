@@ -13,6 +13,25 @@ const Booking = require('../model/booking')
 const Stock = require('../model/stock')
 const Schedule = require('../model/schedule')
 const Vaccination =require('../model/vaccination')
+const VerifyUser = require('../model/verifyuser')
+var otpGenerator = require('otp-generator')
+
+const send_message = function (to, message){
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const from = process.env.TWILIO_FROM_PHONE
+    const client = require('twilio')(accountSid, authToken);
+    console.log(to,message)
+    client.messages.create({
+         body: message,
+         from: from,
+         to: to
+       })
+      .then(message => console.log(message))
+      .catch(error => console.log(error))
+      //console.log('hiiii',message)
+
+}
 var gen = random.generator({
     min:  1000,
     max:  9999, 
@@ -54,30 +73,81 @@ router.all('/register', function(req, res, next) {
         User.addUser(newUser, (err, user) =>{
             if(err){
                 console.log(err)
-                res.json({success: false, msg:'Failed to register user'});   
+                return res.json({success: false, msg:'Failed to register user'});   
             }else {
-                const token = jwt.sign(user.toJSON(), process.env.JWT_KEY,{
-                    expiresIn: 604800 // one week
+                let newVerify = new VerifyUser({
+                    user: newUser._id,
+                    otp:otpGenerator.generate(6, {alphabets:false, upperCase: false, specialChars: false })
                 });
-                res.json({
-                    success: true, token: 'JWT '+token,
-                    user:{
-                        id: user._id,
-                        name: user.name,
-                        age: user.age,
-                        gender: user.gender,
-                        login_type: user.login_type,
+                VerifyUser.createVerify(newVerify,(err, user) =>{
+                    if(err){
+                        console.log(err)
+                        return res.json({success: false, msg:'Failed to register user'});   
+                    }else{
+                        let msgg='Your OTP is '+newVerify.otp
+                        send_message(req.body.phone_no,msgg)
+                        return res.json({success: true, request_id:newVerify._id,otp:newVerify.otp});
                     }
-                });
+                })
+                //return res.json({success: true, msg:'Verify otp'}); 
+                //const token = jwt.sign(user.toJSON(), process.env.JWT_KEY,{
+                 //   expiresIn: 604800 // one week
+                //});
+                //res.json({
+                 //   success: true, token: 'JWT '+token,
+                   // user:{
+                     //   id: user._id,
+                       // name: user.name,
+                     //   age: user.age,
+                      //  gender: user.gender,
+                       // login_type: user.login_type,
+                   // }
+                //});
                 //res.json({success: true, msg:'User registered'}); 
             }
         });
         });
     }else{
-        res.json({success: false, msg:'Invalid Aadhar No'});
+        return res.json({success: false, msg:'Invalid Aadhar No'});
     }
 });
 
+//@desc verify otp
+//@route post /users/verify/:id
+router.post('/verify/:id', (req, res, next) => {
+    VerifyUser.findById(req.params.id,(err, otppp) => {
+        //if (err) throw err;
+        if (!otppp) {
+            return res.json({ success: false, msg: "otp not found" })
+        } else {
+            if(req.body.otp==otppp.otp){
+                User.findByIdAndUpdate(otppp.user,{confirm:'1'},(err,confirmed)=>{
+                    if(err){
+                        return res.json({success: false, msg:'something wrong'});
+                    }else{
+                        otppp.delete()
+                        const token = jwt.sign(user.toJSON(), process.env.JWT_KEY,{
+                               expiresIn: 604800 // one week
+                           });
+                           res.json({
+                               success: true, token: 'JWT '+token,
+                               user:{
+                                   id: user._id,
+                                   name: user.name,
+                                   age: user.age,
+                                   gender: user.gender,
+                                   login_type: user.login_type,
+                               }
+                           });
+                        return res.json({success: true, msg:'otp successfully verified'});
+                    }
+                })
+            }else{
+                return res.json({success: false, msg:'invalid otp'});
+            }
+        }
+    })
+})
 
 // @desc login url for normal user 
 // @route get /users/authenticate
@@ -122,7 +192,8 @@ router.all('/authenticate', (req, res, next) => {
         User.comparePassword(password, user.password, (err, isMatch) => {
             if(err) throw err;
             if(user.confirm=='0'){
-                res.json({success: false, msg:'Doctor registered, and send request to hospital for approval'});
+
+                res.json({success: false, msg:'OTP Not verified'});
             }else{
                 if(isMatch){
                     const token = jwt.sign(user.toJSON(), process.env.JWT_KEY, {

@@ -51,5 +51,5 @@ module.exports.findBooking = function(id,callback){
 // find a particular user booking
 module.exports.findBook = function(id,status,callback){
     const query = {_id:id,status:status}
-    Booking.findOne(query,callback).populate('schedule')
+    Booking.findOne(query,callback).populate('schedule').populate('User')
 }

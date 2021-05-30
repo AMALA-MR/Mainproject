@@ -30,8 +30,9 @@ const UserSchema = mongoose.Schema({
     },
     confirm:{
         type: String, //confirm doctor login only
+        default:'0',
         enum: ['0','1'],  
-        //required: true
+        required: true
     },
     hospital: {
         type: mongoose.Schema.Types.ObjectId,
