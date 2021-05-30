@@ -34,3 +34,8 @@ const Vaccination = module.exports = mongoose.model('Vaccination', VaccinationSc
 module.exports.addVaccinationDetails =function(newValue,callback){
     newValue.save(callback)
 }
+
+module.exports.findUser = function(u_id,callback){
+    const query = {user:u_id}
+    Vaccination.findOne(query,callback).populate('user')
+}

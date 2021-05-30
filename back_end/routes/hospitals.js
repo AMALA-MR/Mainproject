@@ -11,6 +11,25 @@ const Stock =require('../model/stock')
 const Booking = require('../model/booking');
 const Vaccination = require('../model/vaccination');
 
+const send_message = function (to, message){
+
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const from = process.env.TWILIO_FROM_PHONE
+    const client = require('twilio')(accountSid, authToken);
+    console.log(to,message)
+    client.messages.create({
+         body: message,
+         from: from,
+         to: to
+       })
+      .then(message => console.log(message))
+      .catch(message => console.log(message.sid))
+      //console.log('hiiii',message)
+
+}
+
+
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
 //console.log(secret);
@@ -186,7 +205,10 @@ router.get('/view/schedule/:id',(req,res,next)=>{
 })
 
 // @desc view booking for a particular date
-// @route get /hospital/view/bookings/:id {id is the hospital id}
+// @route get /hospital/view/bookings/:id {id is the hospital id} 
+///////////////////////////////////////
+////////////NOT COMPLETED//////////////
+///////////////////////////////////////
 router.get('/view/bookings/:id',(req,res,next)=>{
     Schedule.find({hospital:req.params.id},(err,schedules)=>{
         if(!schedules){
@@ -198,21 +220,20 @@ router.get('/view/bookings/:id',(req,res,next)=>{
 })
 
 //@desc add vaccination
-//@route post /hospital/vaccanation/confirm/:id
+//@route post /hospital/vaccanation/confirm/:id {id where booking id}
 router.post('/vaccanation/confirm/:id',(req,res,next)=>{
-    const status=req.body.status
-    Booking.findBook(req.params.id,status,(err,booked)=>{
+    //const status=req.body.status
+    Booking.findBook(req.params.id,(err,booked)=>{
         if(!booked){
             return res.json({ success: false, msg: 'No Booking Found' })
         }else{
-            //return res.json(booked)
             var date = new Date(); // Now
             
             let newConfirmation = new Vaccination({
                 user: booked.user,
                 vaccine:booked.schedule.vaccine,
                 dose_taken: '1',
-                second_dose_date:date.setDate(date.getDate() + 56),
+                second_dose_date:date.setDate(date.getDate() + 28),
                 status: 'first dose taken'
             });
             Vaccination.findOne({user:booked.user},(err,data)=>{
@@ -239,10 +260,12 @@ router.post('/vaccanation/confirm/:id',(req,res,next)=>{
                                                     return res.json({success: false,msg:'* something wrong'})
                                                 }else{
                                                     Vaccination.findUser(booked.user,(err,userdetail)=>{
+                                                        console.log(userdetail)
                                                         if(err){
                                                             return res.json({success: false,msg:'* something wrong'})
                                                         }else{
                                                             let datt= new Date()
+                                                            
                                                             let dtt=datt.getDate(userdetail.first_dose_date)+'/'+(parseInt(datt.getUTCMonth(userdetail.first_dose_date))+parseInt(1))+'/'+datt.getFullYear(userdetail.first_dose_date)
                                                             let msgg='Dear '+userdetail.user.name+',You have succesfully been vaccinated with your 1 Dose with '+userdetail.vaccine.vaccine_name+ ' on '+dtt+'.'
                                                             send_message(userdetail.user.phone_no,msgg)

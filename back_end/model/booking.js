@@ -49,7 +49,7 @@ module.exports.findBooking = function(id,callback){
     Booking.find(query,callback).populate('schedule')
 }
 // find a particular user booking
-module.exports.findBook = function(id,status,callback){
-    const query = {_id:id,status:status}
+module.exports.findBook = function(id,callback){
+    const query = {_id:id,status:'booked'}
     Booking.findOne(query,callback).populate('schedule').populate('User')
 }
