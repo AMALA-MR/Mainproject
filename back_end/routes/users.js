@@ -12,6 +12,7 @@ const Vaccine = require('../model/vaccine')
 const Booking = require('../model/booking')
 const Stock = require('../model/stock')
 const Schedule = require('../model/schedule')
+const Vaccination =require('../model/vaccination')
 var gen = random.generator({
     min:  1000,
     max:  9999, 
@@ -171,34 +172,77 @@ router.post('/bookings', function(req, res, next) {
         schedule: req.body.schedule,
         status:'booked'
     });
-
-    Booking.addBook(newBook, (err, user) =>{
-        if(err){
-            console.log(err)
-            return res.json({success: false, msg:'Failed to booking'});   
-        }else {
-            Schedule.findById(schedule_id,(err,sh)=>{
-                if(!sh){
-                    res.json({success: false, msg:'* Schedule not found'})
+    Vaccination.findOne({user:req.body.user},(err,van)=>{
+        if(van){
+            Schedule.findById(req.body.schedule,(err,dt)=>{
+                let date2=dt.date
+                if(date2<van.second_dose_date){
+                    let datt= new Date()
+                    let dtt=datt.getDate(van.second_dose_date)+'/'+(parseInt(datt.getUTCMonth(van.second_dose_date))+parseInt(1))+'/'+datt.getFullYear(van.second_dose_date)
+                    let msg= 'your 2 dose date '+ dtt+'. select schedule after that date'
+                    res.json({success: false, msg:msg})
                 }else{
-                    const temp=sh.allocated_amount
-                    if(temp=='0'){
-                        res.json({success: false, msg:'* Slot full'})
-                    }else{
-                        let temp_stock = parseInt(temp) - 1
-                        Schedule.findByIdAndUpdate(schedule_id,{allocated_amount:temp_stock},(err,newamount)=>{
-                            if (err){
-                                return res.json({success:false ,msg:'* Something happened'})   
-                            }else{
-                                return res.json({success: true, msg:'Booking suceess'}); 
-                            }
-                        })
-                    }
+                    Booking.addBook(newBook, (err, user) =>{
+                        if(err){
+                            console.log(err)
+                            return res.json({success: false, msg:'Failed to booking'});   
+                        }else {
+                            Schedule.findById(schedule_id,(err,sh)=>{
+                                if(!sh){
+                                    res.json({success: false, msg:'* Schedule not found'})
+                                }else{
+                                    const temp=sh.allocated_amount
+                                    if(temp=='0'){
+                                        res.json({success: false, msg:'* Slot full'})
+                                    }else{
+                                        let temp_stock = parseInt(temp) - 1
+                                        Schedule.findByIdAndUpdate(schedule_id,{allocated_amount:temp_stock},(err,newamount)=>{
+                                            if (err){
+                                                return res.json({success:false ,msg:'* Something happened'})   
+                                            }else{
+                                                return res.json({success: true, msg:'Booking suceess'}); 
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                            //return res.json({success: true, msg:'Booking suceess'}); 
+                        }
+                    });
                 }
             })
-            //return res.json({success: true, msg:'Booking suceess'}); 
+            //let second_dose=hi
+            //return res.json({success: false, msg:van.status})
+        }else{
+            Booking.addBook(newBook, (err, user) =>{
+                if(err){
+                    console.log(err)
+                    return res.json({success: false, msg:'Failed to booking'});   
+                }else {
+                    Schedule.findById(schedule_id,(err,sh)=>{
+                        if(!sh){
+                            res.json({success: false, msg:'* Schedule not found'})
+                        }else{
+                            const temp=sh.allocated_amount
+                            if(temp=='0'){
+                                res.json({success: false, msg:'* Slot full'})
+                            }else{
+                                let temp_stock = parseInt(temp) - 1
+                                Schedule.findByIdAndUpdate(schedule_id,{allocated_amount:temp_stock},(err,newamount)=>{
+                                    if (err){
+                                        return res.json({success:false ,msg:'* Something happened'})   
+                                    }else{
+                                        return res.json({success: true, msg:'Booking suceess'}); 
+                                    }
+                                })
+                            }
+                        }
+                    })
+                    //return res.json({success: true, msg:'Booking suceess'}); 
+                }
+            });
         }
-    });
+    })
 });
 
 
@@ -239,6 +283,18 @@ router.get('/view/schedule/:id',(req,res,next)=>{
 // @route get /users/stock/:id
 router.get('/stock/:id', function(req, res, next) {
     Stock.findOne({hospital: req.params.id},(err,stock)=>{
+        if(stock){
+            if(parseInt(stock.available_stock)<=100){
+                res.json({stock:stock.available_stock})
+            }
+        }
+    })
+})
+
+// @desc send comment to hospital
+// @route post /users/feedback
+router.post('/feedback/:id', function(req, res, next) {
+    Booking.findLastBooking({hospital: req.params.id},(err,stock)=>{
         if(stock){
             if(parseInt(stock.available_stock)<=100){
                 res.json({stock:stock.available_stock})
