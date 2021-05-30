@@ -27,6 +27,12 @@ export class AuthService {
     let url = `${this.userUri}/register`
     return this.http.post(url, user, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
+  // verify user phone no
+  verifyOtp(id,otps): Observable<any> {
+    let url = `${this.userUri}/verify/${id}`
+    return this.http.post(url, otps, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+
   // doctor registraction
   registerDoctor(doctor): Observable<any> {
     let url = `${this.doctorUri}/register`

@@ -62,10 +62,10 @@ export class UserRegisterComponent implements OnInit {
         console.log(JSON.stringify(values))
         this.authService.registerUser(JSON.stringify(values)).subscribe(res=>{
           if(res.success){
-            this.authService.storeUserToken(res.token, res.user);
-            console.log('User Successfully Registered');
-            if(res.user.type=='user')
-              this.router.navigateByUrl('/users/dashboard')
+            //this.authService.storeUserToken(res.token, res.user);
+            console.log(res);
+            const r_id=res.request_id
+            this.router.navigateByUrl(`verify_otp/${r_id}`)
           }else{
             console.log(res.msg);
             // this.router.navigateByUrl('/register')

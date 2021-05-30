@@ -1,0 +1,13 @@
+<app-nav-bar></app-nav-bar>
+<body>
+    <div class="main">
+        <div class="container a-container" id="a-container">
+            <form action="" id="a-form" class="form" [formGroup]="verifyForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="otp" formControlName="otp">    
+                <button class="form_button button submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>

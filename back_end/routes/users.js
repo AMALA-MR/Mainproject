@@ -17,6 +17,7 @@ const VerifyUser = require('../model/verifyuser')
 var otpGenerator = require('otp-generator')
 
 const send_message = function (to, message){
+
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
     const from = process.env.TWILIO_FROM_PHONE
@@ -28,7 +29,7 @@ const send_message = function (to, message){
          to: to
        })
       .then(message => console.log(message))
-      .catch(error => console.log(error))
+      .catch(message => console.log(message.sid))
       //console.log('hiiii',message)
 
 }
@@ -125,18 +126,20 @@ router.post('/verify/:id', (req, res, next) => {
                     if(err){
                         return res.json({success: false, msg:'something wrong'});
                     }else{
-                        otppp.delete()
-                        const token = jwt.sign(user.toJSON(), process.env.JWT_KEY,{
+                        otppp.remove()
+                        const token = jwt.sign(confirmed.toJSON(), process.env.JWT_KEY,{
                                expiresIn: 604800 // one week
                            });
                            res.json({
                                success: true, token: 'JWT '+token,
                                user:{
-                                   id: user._id,
-                                   name: user.name,
-                                   age: user.age,
-                                   gender: user.gender,
-                                   login_type: user.login_type,
+                                id: confirmed._id,
+                                name: confirmed.name,
+                                phone_no: confirmed.phone_no,
+                                age: confirmed.age,
+                                login_type: confirmed.login_type,
+                                adhar_no : confirmed.adhar_no,
+                                secret_code:confirmed.secret_code
                                }
                            });
                         return res.json({success: true, msg:'otp successfully verified'});

@@ -286,8 +286,8 @@ router.post('/vaccanation/confirm/:id',(req,res,next)=>{
                                                         }else{
                                                             let msgg='Dear '+userdetail.user.name+',You have succesfully been vaccinated with your 2 Dose with '+userdetail.vaccine.vaccine_name+ ' on '+date+'.'
                                                             send_message(userdetail.user.phone_no,msgg)
-                                                            let msgg='Dear '+userdetail.user.name+',Congratulations! you have succesfully completed the schedule of all doses of COVID-19 vaccine.'
-                                                            send_message(userdetail.user.phone_no,msgg)
+                                                            let msg2='Dear '+userdetail.user.name+',Congratulations! you have succesfully completed the schedule of all doses of COVID-19 vaccine.'
+                                                            send_message(userdetail.user.phone_no,msg2)
                                                             return res.json({success: true, msg:'Vaccination success'});
                                                         }
                                                     })
