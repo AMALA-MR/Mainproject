@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Schedule = require('./schedule')
+const ObjectId = mongoose.Types.ObjectId;
 
 // Booking Schemma
 const BookingSchema = mongoose.Schema({
@@ -52,4 +54,28 @@ module.exports.findBooking = function(id,callback){
 module.exports.findBook = function(id,callback){
     const query = {_id:id,status:'booked'}
     Booking.findOne(query,callback).populate('schedule').populate('User')
+}
+
+module.exports.findVaccineBooking = function(hid,callback){
+    let dt=new Date()
+    Schedule.aggregate([
+        {
+            $lookup: {
+                from:"bookings",
+                localField:"_id",
+                foreignField: "schedule",
+                as : "booking"
+            }
+        },
+        {
+            $unwind:"$booking"
+        },
+        {
+            $match:{
+                $and: [{"hospital":ObjectId(hid),"date":{$lt: dt}}]
+            }
+        }
+    ]).exec(function(err,data){
+        Schedule.populate(data,{path:'vaccine'},callback)
+    })
 }

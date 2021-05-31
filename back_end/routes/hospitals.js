@@ -206,11 +206,8 @@ router.get('/view/schedule/:id',(req,res,next)=>{
 
 // @desc view booking for a particular date
 // @route get /hospital/view/bookings/:id {id is the hospital id} 
-///////////////////////////////////////
-////////////NOT COMPLETED//////////////
-///////////////////////////////////////
 router.get('/view/bookings/:id',(req,res,next)=>{
-    Schedule.find({hospital:req.params.id},(err,schedules)=>{
+    Booking.findVaccineBooking(req.params.id,(err,schedules)=>{
         if(!schedules){
             return res.json({ success: false, msg: 'No Schedules Found' })
         }else{

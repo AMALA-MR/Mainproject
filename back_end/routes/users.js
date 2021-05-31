@@ -348,7 +348,7 @@ router.get('/view/schedule/:id',(req,res,next)=>{
         if(hospitl==''){
             return res.json({success: false, msg:'No schedules'})
         }else{
-            return res.json(hospitl)
+            return res.json({success: true,hospitl})
         }
     
 })})

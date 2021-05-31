@@ -41,6 +41,7 @@ module.exports.viewSchedule = function(hid,callback){
 }
 
 module.exports.findSchedule = function(pin,callback){
+    let dt=new Date()
     Schedule.aggregate([
         {
             $lookup: {
@@ -55,12 +56,16 @@ module.exports.findSchedule = function(pin,callback){
         },
         {
             $match: {
-                $or: [{"hospit.pincode":pin}, 
-                    {"hospit.district":pin }]
+                "date": { $gt: dt},
+                $or: [{"hospit.pincode":pin},
+                    {"hospit.district":pin}]
+                
                 //"hospit.pincode":pin
             }
         }
-    ],callback)
+    ]).exec(function(err,data){
+        Schedule.populate(data,{path:'vaccine'},callback)
+    })
 }
 
 module.exports.findScheduleVaccine = function(val,callback){
