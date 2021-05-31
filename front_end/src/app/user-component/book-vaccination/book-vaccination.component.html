@@ -37,9 +37,11 @@
                 </select>
                 <br>
 
+                <div class="center" *ngIf="data==''">
+                    <div class="center"><h5 style="color: red;">No Schedules........!</h5> </div>
+                </div>
 
-
-                <table class="table table-bordered">
+                <table class="table table-bordered" *ngIf="data!=''">
                     <thead>
                         <tr>
                             <th>Sl.no</th>
@@ -51,11 +53,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let val of data; let i=index">
+                        <tr *ngFor="let val of data; let i=index " >
                             <td>{{i+1}}</td>
                             <td>{{val.hospit.name}}</td>
                             <!-- <td> {{val.city}},<br>{{val.district}},<br>{{val.state}},<br>pin:{{val.pincode}} </td> -->
-                            <td>{{val.vaccine}}</td>
+                            <td>{{val.vaccine.vaccine_name}}</td>
                             <td>{{val.slot}}</td>
                             <td>{{val.date| date:'dd-mm-yyyy'}}</td>
                             <th>{{val.allocated_amount}}</th>

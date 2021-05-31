@@ -11,6 +11,7 @@ import { AuthService } from '../../Services/auth.service';
 export class BookVaccinationComponent implements OnInit {
   bookForm: FormGroup;
   key: string;
+  datenow:string
   data: any = [];
   constructor(
     private formBuilder: FormBuilder,
@@ -19,7 +20,7 @@ export class BookVaccinationComponent implements OnInit {
   ) { this.mainForm(); }
 
   ngOnInit(): void {
-    //this.key=value from text box
+
 
   }
 
@@ -38,8 +39,13 @@ export class BookVaccinationComponent implements OnInit {
 
   searchbypincode() {
     this.authService.getBookSchedule(this.bookForm.value.pincode).subscribe(res => {
-      this.data = res
-      console.log(res, "what data in it............")
+      if(!res.success){
+        console.log(res.msg)
+        this.data =""
+      }else{
+        this.data = res.hospitl
+        console.log(res, "what data in it............")
+      }
     }, (error) => {
       console.log(error)
     });
@@ -49,8 +55,13 @@ export class BookVaccinationComponent implements OnInit {
   searchbdistrict() {
     // console.log(this.bookForm.value.district,"valueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
     this.authService.getBookSchedule(this.bookForm.value.district).subscribe(res => {
-      this.data = res
-      console.log(res, "what data in it............")
+      if(!res.success){
+        console.log(res.msg)
+        this.data =""
+      }else{
+        this.data = res.hospitl
+        console.log(res, "what data in it............")
+      }
     }, (error) => {
       console.log(error)
     });
