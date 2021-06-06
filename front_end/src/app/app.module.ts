@@ -40,6 +40,7 @@ import { ScheduleVaccinationComponent } from './hospital-component/schedule-vacc
 import { ViewrequestComponent } from './hospital-component/viewrequest/viewrequest.component';
 import { BookVaccinationComponent } from './user-component/book-vaccination/book-vaccination.component';
 import { VerifyOtpComponent } from './user-component/verify-otp/verify-otp.component';
+import { VaccinationComponent } from './hospital-component/vaccination/vaccination.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { VerifyOtpComponent } from './user-component/verify-otp/verify-otp.compo
     ScheduleVaccinationComponent,
     ViewrequestComponent,
     BookVaccinationComponent,
-    VerifyOtpComponent
+    VerifyOtpComponent,
+    VaccinationComponent
   ],
   imports: [
     FormsModule,

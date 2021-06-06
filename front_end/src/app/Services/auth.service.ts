@@ -106,6 +106,16 @@ approvedoctor(id, confirm): Observable<any> {
     let url = `${this.userUri}/view/schedule/${key}`
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
+  // get today bookins for hospitals
+  getBooking(hid): Observable<any> {
+    let url =`${this.hospitalUri}/view/bookings/${hid}`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+  // confirmation vaccination
+  confirmVaccination(bookid): Observable<any> {
+    let url =`${this.hospitalUri}/vaccanation/confirm/${bookid}`
+    return this.http.post(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
 
   //add vaccine details
   addVaccine(vaccine): Observable<any> {
@@ -132,6 +142,16 @@ approvedoctor(id, confirm): Observable<any> {
    // get booking info from booking table
    getbookdetails(id): Observable<any> {
     let url = `${this.userUri}/book/list/${id}`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+  // get btnvalue
+  getbtnvalue(id): Observable<any> {
+    let url = `${this.userUri}/details/${id}`
+    return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
+  }
+  // get btnvalue
+  forbtndisabling(id): Observable<any> {
+    let url = `${this.userUri}/btn/${id}`
     return this.http.get(url, { headers: this.headers }).pipe(catchError(this.errorMgmt))
   }
 

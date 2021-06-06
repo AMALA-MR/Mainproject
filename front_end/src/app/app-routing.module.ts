@@ -19,6 +19,7 @@ import { ScheduleVaccinationComponent } from './hospital-component/schedule-vacc
 import { ViewrequestComponent } from './hospital-component/viewrequest/viewrequest.component';
 import { BookVaccinationComponent } from './user-component/book-vaccination/book-vaccination.component';
 import { VerifyOtpComponent } from './user-component/verify-otp/verify-otp.component';
+import { VaccinationComponent } from './hospital-component/vaccination/vaccination.component';
 
 import { from } from 'rxjs';
 import { AuthGuard } from './services/auth.guard';
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'schedule/vaccination', component: ScheduleVaccinationComponent,canActivate:[AuthGuard]},
   { path: 'doctor/requests', component: ViewrequestComponent,canActivate:[AuthGuard]},
   { path: 'book/vaccination', component: BookVaccinationComponent,canActivate:[AuthGuard]},
+  { path: 'vaccination', component: VaccinationComponent,canActivate:[AuthGuard]},
   { path: 'verify_otp/:id', component: VerifyOtpComponent },
 ];
 
