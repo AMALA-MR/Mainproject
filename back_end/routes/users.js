@@ -46,7 +46,10 @@ const secret = process.env.JWT_KEY;
 // @desc user home page
 // @route get /users
 router.get('/', (req, res, next) => {
-    res.send('Home');
+     User.find({},(err,no)=>{
+         res.json(no)
+     })
+    //res.send('Home');
 });
 
 // @desc registration url for normal user
@@ -326,7 +329,29 @@ router.get('/book/list/:id', (req, res, next) => {
         if(userbooking){
             return res.json(userbooking)
         }else{
-            return res.find({success:false, msg:"Booking not found!"})
+            return res.json({success:false, msg:"Booking not found!"})
+        }
+    })
+})
+
+//@desc get booked list for btn disabling
+router.get('/btn/:id', (req, res, next) => {
+    Booking.findOne({user:req.params.id},(err, userbooking)=>{
+        if(userbooking){
+            return res.json({success:true, value:userbooking.status})
+        }else{
+            return res.json({success:false, value:""})
+        }
+    })
+})
+
+//@desc get vaccination det
+router.get('/details/:id', (req, res, next) => {
+    Vaccination.findOne({user:req.params.id},(err, userbooking)=>{
+        if(userbooking){
+            return res.json({success:true, value:userbooking.dose_taken})
+        }else{
+            return res.json({success:false, value:""})
         }
     })
 })
@@ -352,6 +377,8 @@ router.get('/view/schedule/:id',(req,res,next)=>{
         }
     
 })})
+
+
 
 // @desc book vaccination date and slot
 // @route get /users/stock/:id
