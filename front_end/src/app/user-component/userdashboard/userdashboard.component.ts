@@ -21,18 +21,33 @@ export class UserdashboardComponent implements OnInit {
   ngOnInit(): void {
     
     this.user = JSON.parse(localStorage.getItem('user'))
-    this.authService.getbookdetails(this.user.id).subscribe(res => {
-      if(res==''){
-        this.btn =[{"status":"Schedule vaccine"}];
-        //console.log(this.btn)
-      }else{
-        this.btn = res
+    this.authService.forbtndisabling(this.user.id).subscribe(res => {
+      if(res.value=='booked'){
+        this.isDisabled=true;
+      }else if(res.value=='taken'){
+        this.isDisabled=false;
+      }
+    }, (error) => {
+      console.log(error)
+    });
+    
+    this.authService.getbtnvalue(this.user.id).subscribe(res => {
+      if(this.isDisabled==true){
+        this.btn = "Booked"
+      }else if(res.value==''){
+        //this.btn =[{"status":"Schedule vaccine"}];
+        this.btn = "Book first dose"
+      }else if(res.value=='1'){
+        this.btn ="Book second dose"
+      }else if(res.value=='2'){
+        this.btn = "Vaccination completed"
         this.isDisabled=true;
       }
       
     }, (error) => {
       console.log(error)
     });
+    
   }
   
   onbooking(){

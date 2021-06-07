@@ -1,0 +1,42 @@
+<app-hnavbar></app-hnavbar>
+
+<div class="container">
+    <div class="card">
+        <div>
+            <h4>Booking details
+                <form action="">
+                    <input type="text" name="searchAadhar" placeholder="Search By Aadhar" [(ngModel)]="searchAadhar" style="margin-left: 32em;">
+                </form>
+            </h4>
+        </div>
+        
+        <div class="center" *ngIf="data==''">
+            <div class="center"><h5 style="color: red;">Nothing you are added........!</h5> </div>
+        </div>
+        <table class="table table-striped" *ngIf="data!=''">
+            <thead>
+                <tr>
+                    <th>Sl.no</th>
+                    <th>Slot</th>
+                    <th>Name</th>
+                    <th>Aadhar No</th>
+                    <th>Vaccine</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr *ngFor="let val of data | filter: searchAadhar ; let i=index" >
+                    <td> {{i+1}} </td>
+                    <td> {{val.booking.slot}} </td>
+                    <td> {{val.user.name}} </td>
+                    <td> {{val.user.adhar_no}} </td>
+                    <td> {{val.booking.vaccine}} </td>
+                    <td>
+                        <a class="btn btn-primary" (click)="onConfirm(val._id)">Confirm</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+</div>
